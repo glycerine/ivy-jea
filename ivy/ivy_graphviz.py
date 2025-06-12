@@ -2,6 +2,7 @@
 # difficult to install on Windows.
 
 import pydot
+from pydot import dot_parser
 import tempfile
 import os
 from subprocess import Popen, PIPE
@@ -22,26 +23,31 @@ def add_elements(g, toks, defaults_graph=None,
 
         if isinstance(element, (pydot.Subgraph, pydot.Cluster)):
 
-            pydot.dot_parser.add_defaults(element, defaults_graph)
+            ##pydot.dot_parser.add_defaults(element, defaults_graph)
+            dot_parser.add_defaults(element, defaults_graph)
             g.add_subgraph(element)
 
         elif isinstance(element, pydot.Node):
 
-            pydot.dot_parser.add_defaults(element, defaults_node)
+            ##pydot.dot_parser.add_defaults(element, defaults_node)
+            dot_parser.add_defaults(element, defaults_node)
             g.add_node(element)
 
         elif isinstance(element, pydot.Edge):
 
-            pydot.dot_parser.add_defaults(element, defaults_edge)
+            ##pydot.dot_parser.add_defaults(element, defaults_edge)
+            dot_parser.add_defaults(element, defaults_edge)
             g.add_edge(element)
 
-        elif isinstance(element, pydot.dot_parser.ParseResults):
+        ##elif isinstance(element, pydot.dot_parser.ParseResults):
+        elif isinstance(element, dot_parser.ParseResults):
 
             for e in element:
                 add_elements(g, [e], defaults_graph,
                              defaults_node, defaults_edge)
 
-        elif isinstance(element, pydot.dot_parser.DefaultStatement):
+        ##elif isinstance(element, pydot.dot_parser.DefaultStatement):
+        elif isinstance(element, dot_parser.DefaultStatement):
 
             if element.default_type == 'graph':
 
@@ -60,7 +66,8 @@ def add_elements(g, toks, defaults_graph=None,
                     'Unknown DefaultStatement: {s}'.format(
                          s=element.default_type))
 
-        elif isinstance(element, pydot.dot_parser.P_AttrList):
+        ##elif isinstance(element, pydot.dot_parser.P_AttrList):
+        elif isinstance(element, dot_parser.P_AttrList):
 
             g.obj_dict['attributes'].update(element.attrs)
 
@@ -134,7 +141,8 @@ class AGraph(object):
         exit_code = process.wait()
 #        txt = self.g.create(prog=prog,format='dot')
         txt = txt.decode("utf-8")
-        self.g =  pydot.dot_parser.parse_dot_data(txt)[0]
+        ##self.g =  pydot.dot_parser.parse_dot_data(txt)[0]
+        self.g =  dot_parser.parse_dot_data(txt)[0]
         fix_parsed_graph(self.g)
     def nodes(self):
         res = self.g.get_node_list()
