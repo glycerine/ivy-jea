@@ -1,5 +1,6 @@
-# macports port is in
-export PATH=/Users/jaten/pyivy/ivy/bin:/opt/local/bin:$PATH
+# macports port is in /opt/local/bin
+# ivy_check is in /Users/jaten/pyivy/venv/bin
+export PATH=/Users/jaten/pyivy/ivy/bin:/Users/jaten/pyivy/venv/bin:/opt/local/bin:$PATH
 
 ## sudo /opt/local/bin/port -v selfupdate
 export Z3_LIBRARY_PATH=/Users/jaten/pyivy/venv/lib/python3.10/site-packages/ivy/lib/libz3.dylib
