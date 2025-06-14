@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- IBM Plex Mono -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+  <!-- IBM Plex Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" href="main.css">
+
+  <title>assumption</title>
+</head>
+
+<body>
+  <div class="grid">
+    <nav>
+      <div>
+        <h2><a href="index.html">Ivy notes</a></h2>
+        <p>A personal expansion and reorganization of the Ivy project's documentation.</p>
+        <br/>
+        <br/>
+        <li><a href="http://microsoft.github.io/ivy/">Ivy website</a></li>
+        <li><a href="https://github.com/kenmcmil/ivy">Ivy github</a></li>
+      </div>
+      <div>
+        <h3>Navigation</h3>
+        <ul>
+          <li><a href="lexical-structure.html">Lexical structure</a></li>
+          <li><a href="keywords.html">Keywords</a></li>
+          <li><a href="declaration.html">Declarations</a></li>
+          <li><a href="definition.html">Definitions</a></li>
+          <li><a href="expression.html">Expressions</a></li>
+          <li><a href="action.html">Actions</a></li>
+          <li><a href="statement.html">Statements</a></li>
+          <li><a href="property.html">Properties</a> and <a href="theorem.html">Theorems</a></li>
+          <li><a href="isolate.html">Isolates</a> and <a href="invariant.html">Invariants</a></li>
+          <li><a href="assume-guarantee-reasoning.html">Assume-Guarantee reasoning</a></li>
+          <li><a href="logical-fragment.html">Logical fragment</a></li>
+          <li><a href="verification-condition.html">Verification conditions</a></li>
+          <li><a href="recovering-decidability.html">Recovering decidability</a></li>
+          <li><a href="proof.html">Proof</a> and <a href="tactic.html">Tactics</a></li>
+          <li><a href="command.html">Commands</a></li>
+          <li><a href="further-info.html">Further info</a></li>
+        </ul>
+      </div>
+      <div class="footer">
+        <p>Notes taken with <a href="http://obsidian.md">obsidian</a></p>
+        <p>Rendered with <a href="http://github.com/kmaasrud/oboe">oboe</a></p>
+      </div>
+    </nav>
+    <article>
+      <header>assumption</header>
+      <div id="content"><h2 id="as-a-keyword">As a keyword</h2>
+
+<p><a href="keywords.html">Keyword</a>: <code>assume</code></p>
+
+<p>Introduces a logical assumption into a context.</p>
+
+<p>Exists as both a <a href="tactic.html">tactic</a> and a <a href="statement.html">statement</a>.</p>
+
+<h2 id="as-a-concept">As a concept</h2>
+
+<p>"Assumption" as a general concept also refers to a logical assumption introduced by any of:</p>
+
+<ul>
+<li>The <code>assume</code> keyword itself, which adds a general free-standing assumption in an <a href="action.html">action</a> not associated with the action's <a href="visibility-qualifiers.html">visibility qualifiers</a> or <a href="assume-guarantee-reasoning.html">assume-guarantee reasoning</a> between actions.</li>
+<li>A <a href="precondition.html">precondition</a> (keyword <code>require</code>) when considered from the perspective of verifying the <a href="action.html">action</a> containing the <code>require</code> statement.</li>
+<li>A <a href="postcondition.html">postcondition</a> (keyword <code>ensure</code>) when considered from the perspective of verifying an <a href="action.html">action</a> that <strong>calls</strong> the action containing the <code>ensure</code> statement.</li>
+<li>An <a href="invariant.html">invariant</a> (keyword <code>invariant</code>) which also introduces an <a href="guarantee.html">guarantee</a> (as invariants are <strong>inductive</strong>, they both assume and guarantee).</li>
+</ul>
+
+<p>Assumptions and <a href="guarantee.html">guarantees</a> together support <a href="assume-guarantee-reasoning.html">assume-guarantee reasoning</a>, which is a basis of <a href="isolate.html">modular verification</a> in Ivy.</p>
+
+<p>Assumptions occur <a href="positive-and-negative-occurrences.html">positively</a> in <a href="verification-condition.html">verification conditions</a>.</p>
+</div>
+      <hr />
+      <h2 id="backlinks">Backlinks</h2>
+      <div class="backlinks">
+
+<ul>
+<li><a href="assertion.html">assertion</a></li>
+<li><a href="assume-guarantee-reasoning.html">assume-guarantee reasoning</a></li>
+<li><a href="axiom.html">axiom</a></li>
+<li><a href="effectively-propositional.html">effectively propositional</a></li>
+<li><a href="guarantee.html">guarantee</a></li>
+<li><a href="invariant.html">invariant</a></li>
+<li><a href="isolate.html">isolate</a></li>
+<li><a href="https://graydon.github.io/ivy-notes/ivy_check-command.html">ivy_check command</a></li>
+<li><a href="keywords.html">keywords</a></li>
+<li><a href="positive-and-negative-occurrences.html">positive and negative occurrences</a></li>
+<li><a href="postcondition.html">postcondition</a></li>
+<li><a href="precondition.html">precondition</a></li>
+<li><a href="statement.html">statement</a></li>
+<li><a href="stratification.html">stratification</a></li>
+<li><a href="tactic.html">tactic</a></li>
+</ul>
+
+</div>
+
+    </article>
+  </div>
+</body>
+
+</html>

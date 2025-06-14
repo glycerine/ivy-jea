@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- IBM Plex Mono -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+  <!-- IBM Plex Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" href="main.css">
+
+  <title>type</title>
+</head>
+
+<body>
+  <div class="grid">
+    <nav>
+      <div>
+        <h2><a href="index.html">Ivy notes</a></h2>
+        <p>A personal expansion and reorganization of the Ivy project's documentation.</p>
+        <br/>
+        <br/>
+        <li><a href="http://microsoft.github.io/ivy/">Ivy website</a></li>
+        <li><a href="https://github.com/kenmcmil/ivy">Ivy github</a></li>
+      </div>
+      <div>
+        <h3>Navigation</h3>
+        <ul>
+          <li><a href="lexical-structure.html">Lexical structure</a></li>
+          <li><a href="keywords.html">Keywords</a></li>
+          <li><a href="declaration.html">Declarations</a></li>
+          <li><a href="definition.html">Definitions</a></li>
+          <li><a href="expression.html">Expressions</a></li>
+          <li><a href="action.html">Actions</a></li>
+          <li><a href="statement.html">Statements</a></li>
+          <li><a href="property.html">Properties</a> and <a href="theorem.html">Theorems</a></li>
+          <li><a href="isolate.html">Isolates</a> and <a href="invariant.html">Invariants</a></li>
+          <li><a href="assume-guarantee-reasoning.html">Assume-Guarantee reasoning</a></li>
+          <li><a href="logical-fragment.html">Logical fragment</a></li>
+          <li><a href="verification-condition.html">Verification conditions</a></li>
+          <li><a href="recovering-decidability.html">Recovering decidability</a></li>
+          <li><a href="proof.html">Proof</a> and <a href="tactic.html">Tactics</a></li>
+          <li><a href="command.html">Commands</a></li>
+          <li><a href="further-info.html">Further info</a></li>
+        </ul>
+      </div>
+      <div class="footer">
+        <p>Notes taken with <a href="http://obsidian.md">obsidian</a></p>
+        <p>Rendered with <a href="http://github.com/kmaasrud/oboe">oboe</a></p>
+      </div>
+    </nav>
+    <article>
+      <header>type</header>
+      <div id="content"><p><a href="keywords.html">Keyword</a>: <code>type</code></p>
+
+<p>One of the <a href="primitive-judgment.html">primitive judgments</a>.</p>
+
+<p>Introduces a new type.</p>
+
+<p>Types may be interpreted or uninterpreted.</p>
+
+<p>An <a href="uninterpreted-type.html">uninterpreted type</a> is treated as a set with at least one element, but no <strong>specific</strong> elements.</p>
+
+<p>An interpreted type has specific elements, defined either through <a href="theory-instantiation.html">theory instantiation</a> or by enumerating the elements of the type "in extension".</p>
+
+<h2 id="examples">Examples:</h2>
+
+<h3 id="example-uninterpreted-type">Example: uninterpreted type</h3>
+
+<pre><code class="plaintext lang-plaintext language-plaintext">type t</code></pre>
+
+<p>This judgment can be read as "let <code>t</code> be a type". It is admissible provided <code>t</code> is a new symbol that has not been used up to this point in the development.</p>
+
+<h3 id="example-interpreted-type-defined-by-enumeration">Example: interpreted type defined by enumeration</h3>
+
+<pre><code class="plaintext lang-plaintext language-plaintext">type color = {red,green,blue}</code></pre>
+
+<p>This declares a type with exactly three distinct values, and also declares individuals <code>red</code>, <code>green</code> and <code>blue</code> as its elements.</p>
+
+<h3 id="example-interpreted-type-defined-by-theory-instantiation">Example: interpreted type defined by theory instantiation</h3>
+
+<pre><code class="plaintext lang-plaintext language-plaintext">type foo
+interpret foo -> int</code></pre>
+
+<p>This declares a type <code>foo</code> with an interpretation that is a separate copy of the theory of integers (including overloaded symbols for most integer operators such as <code>+</code> and <code>&lt;</code>)</p>
+</div>
+      <hr />
+      <h2 id="backlinks">Backlinks</h2>
+      <div class="backlinks">
+
+<ul>
+<li><a href="alias.html">alias</a></li>
+<li><a href="constant.html">constant</a></li>
+<li><a href="expression.html">expression</a></li>
+<li><a href="function.html">function</a></li>
+<li><a href="ghost.html">ghost</a></li>
+<li><a href="individual.html">individual</a></li>
+<li><a href="instantiation.html">instantiation</a></li>
+<li><a href="keywords.html">keywords</a></li>
+<li><a href="logical-variable.html">logical variable</a></li>
+<li><a href="many-sorted-logic.html">many-sorted logic</a></li>
+<li><a href="module.html">module</a></li>
+<li><a href="module-instantiation.html">module instantiation</a></li>
+<li><a href="primitive-judgment.html">primitive judgment</a></li>
+<li><a href="private-destructor.html">private destructor</a></li>
+<li><a href="relation.html">relation</a></li>
+<li><a href="stratification.html">stratification</a></li>
+<li><a href="struct.html">struct</a></li>
+<li><a href="theory-instantiation.html">theory instantiation</a></li>
+<li><a href="uninterpreted-type.html">uninterpreted type</a></li>
+</ul>
+
+</div>
+
+    </article>
+  </div>
+</body>
+
+</html>

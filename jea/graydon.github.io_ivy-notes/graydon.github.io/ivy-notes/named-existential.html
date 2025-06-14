@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- IBM Plex Mono -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+  <!-- IBM Plex Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" href="main.css">
+
+  <title>named existential</title>
+</head>
+
+<body>
+  <div class="grid">
+    <nav>
+      <div>
+        <h2><a href="index.html">Ivy notes</a></h2>
+        <p>A personal expansion and reorganization of the Ivy project's documentation.</p>
+        <br/>
+        <br/>
+        <li><a href="http://microsoft.github.io/ivy/">Ivy website</a></li>
+        <li><a href="https://github.com/kenmcmil/ivy">Ivy github</a></li>
+      </div>
+      <div>
+        <h3>Navigation</h3>
+        <ul>
+          <li><a href="lexical-structure.html">Lexical structure</a></li>
+          <li><a href="keywords.html">Keywords</a></li>
+          <li><a href="declaration.html">Declarations</a></li>
+          <li><a href="definition.html">Definitions</a></li>
+          <li><a href="expression.html">Expressions</a></li>
+          <li><a href="action.html">Actions</a></li>
+          <li><a href="statement.html">Statements</a></li>
+          <li><a href="property.html">Properties</a> and <a href="theorem.html">Theorems</a></li>
+          <li><a href="isolate.html">Isolates</a> and <a href="invariant.html">Invariants</a></li>
+          <li><a href="assume-guarantee-reasoning.html">Assume-Guarantee reasoning</a></li>
+          <li><a href="logical-fragment.html">Logical fragment</a></li>
+          <li><a href="verification-condition.html">Verification conditions</a></li>
+          <li><a href="recovering-decidability.html">Recovering decidability</a></li>
+          <li><a href="proof.html">Proof</a> and <a href="tactic.html">Tactics</a></li>
+          <li><a href="command.html">Commands</a></li>
+          <li><a href="further-info.html">Further info</a></li>
+        </ul>
+      </div>
+      <div class="footer">
+        <p>Notes taken with <a href="http://obsidian.md">obsidian</a></p>
+        <p>Rendered with <a href="http://github.com/kmaasrud/oboe">oboe</a></p>
+      </div>
+    </nav>
+    <article>
+      <header>named existential</header>
+      <div id="content"><p><a href="keywords.html">Keyword</a>: <code>named</code></p>
+
+<p>A named existential binds a <a href="skolemization.html">skolem function</a> to a <a href="fresh-name.html">fresh name</a>.</p>
+
+<h2 id="example">Example:</h2>
+
+<p>If we can prove that something exists, we can give it a name.  For example, suppose that we can prove that, for every <code>X</code>, there exists a <code>Y</code> such that <code>succ(X,Y)</code>. Then there exists a (Skolem) function that, given an <code>X</code>, produces such a <code>Y</code>. We can define such a function called <code>next</code> in the following way:</p>
+
+<pre><code class="plaintext lang-plaintext language-plaintext">relation succ(X:t,Y:t)
+axiom exists Y. succ(X,Y)
+
+property exists Y. succ(X,Y) named next(X)</code></pre>
+
+<p>Provided we can prove the property, and that <code>next</code> is fresh, we can infer that, for all <code>X</code>, <code>succ(X,next(X))</code> holds. Defining a function in this way, (that is, as a Skolem function) can be quite useful in constructing a proof.  However, since proofs in Ivy are not generally constructive, we have no way to <em>compute</em> the function <code>next</code>, so we can't use it in extracted code.</p>
+</div>
+      <hr />
+      <h2 id="backlinks">Backlinks</h2>
+      <div class="backlinks">
+
+<ul>
+<li><a href="keywords.html">keywords</a></li>
+</ul>
+
+</div>
+
+    </article>
+  </div>
+</body>
+
+</html>

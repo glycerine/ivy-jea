@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- IBM Plex Mono -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+  <!-- IBM Plex Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" href="main.css">
+
+  <title>judgment application</title>
+</head>
+
+<body>
+  <div class="grid">
+    <nav>
+      <div>
+        <h2><a href="index.html">Ivy notes</a></h2>
+        <p>A personal expansion and reorganization of the Ivy project's documentation.</p>
+        <br/>
+        <br/>
+        <li><a href="http://microsoft.github.io/ivy/">Ivy website</a></li>
+        <li><a href="https://github.com/kenmcmil/ivy">Ivy github</a></li>
+      </div>
+      <div>
+        <h3>Navigation</h3>
+        <ul>
+          <li><a href="lexical-structure.html">Lexical structure</a></li>
+          <li><a href="keywords.html">Keywords</a></li>
+          <li><a href="declaration.html">Declarations</a></li>
+          <li><a href="definition.html">Definitions</a></li>
+          <li><a href="expression.html">Expressions</a></li>
+          <li><a href="action.html">Actions</a></li>
+          <li><a href="statement.html">Statements</a></li>
+          <li><a href="property.html">Properties</a> and <a href="theorem.html">Theorems</a></li>
+          <li><a href="isolate.html">Isolates</a> and <a href="invariant.html">Invariants</a></li>
+          <li><a href="assume-guarantee-reasoning.html">Assume-Guarantee reasoning</a></li>
+          <li><a href="logical-fragment.html">Logical fragment</a></li>
+          <li><a href="verification-condition.html">Verification conditions</a></li>
+          <li><a href="recovering-decidability.html">Recovering decidability</a></li>
+          <li><a href="proof.html">Proof</a> and <a href="tactic.html">Tactics</a></li>
+          <li><a href="command.html">Commands</a></li>
+          <li><a href="further-info.html">Further info</a></li>
+        </ul>
+      </div>
+      <div class="footer">
+        <p>Notes taken with <a href="http://obsidian.md">obsidian</a></p>
+        <p>Rendered with <a href="http://github.com/kmaasrud/oboe">oboe</a></p>
+      </div>
+    </nav>
+    <article>
+      <header>judgment application</header>
+      <div id="content"><p>A part of an explicit <a href="proof.html">proof</a>.</p>
+
+<p>To use (or "apply") a named <a href="property.html">property</a>, <a href="axiom.html">axiom</a>, <a href="axiom-schema.html">axiom schema</a> or <a href="theorem.html">theorem</a> in a <a href="proof.html">proof</a>, use the <a href="tactic.html">tactic</a> <code>apply</code>.</p>
+
+<p>(In some documentation this is also called <a href="instantiation.html">instantiation</a> but that term is heavily overloaded so we try to avoid it here.)</p>
+
+<p><a href="schema.html">Schemas (or "compound judgments")</a> are never applied automatically. <a href="primitive-judgment.html">Primitive judgments</a> may be.</p>
+
+<p>Sometimes a schema application can match its premises with terms in the proof environment automatically. But this problem (so-called "second order matching") in general is hard and so some applications require an explicit list of input premises.</p>
+
+<h2 id="example">Example:</h2>
+
+<pre><code class="plaintext lang-plaintext language-plaintext">axiom [congruence] {
+    type d
+    type r
+    function f(X:d) : r
+    <span class="tag">--------------------------</span>
+    property X = Y -> f(X) = f(Y)
+}
+
+property [prop_n] Z = n -> Z + 1 = n + 1
+proof {
+    apply congruence
+}</code></pre>
+
+<p>The <code>proof</code> declaration tells Ivy to apply the <a href="axiom-schema.html">axiom schema</a> <code>congruence</code> to prove the <a href="property.html">property</a> <code>prop_n</code>. </p>
+
+<p>Ivy tries to match the <a href="proof.html">proof</a> goal <code>prop_n</code> to the schema's conclusion by picking particular values for premises, that is, the types <code>d</code>,<code>r</code> and function <code>f</code>. It also chooses terms for the free variables <code>X</code>,<code>Y</code> occurring in the schema. In this case, it discovers the following assignment:</p>
+
+<pre><code class="plaintext lang-plaintext language-plaintext">d = t
+r = t
+X = Z
+Y = n
+f(N) = N + 1</code></pre>
+
+<p>After plugging in this assignment, the conclusion of the rule exactly matches the property to be proved, so the property is admitted.</p>
+
+<p>In case Ivy did not succeed in finding the above match, we could also have written the proof more explicitly, like this:</p>
+
+<pre><code class="plaintext lang-plaintext language-plaintext">property [prop_n_2] Z = n -> Z + 1 = n + 1
+proof {
+    apply congruence with X=Z, Y=n, f(X) = X:t + 1
+}</code></pre>
+
+<p>Each of the above equations acts as a constraint on the assignment. That is, it must convert <code>X</code> to <code>Z</code>, <code>Y</code> to <code>n</code> and <code>f(X)</code> to <code>X + 1</code>. Notice that we had to explicitly type <code>X</code> on the right-hand side of the last equation, since its type couldn't be inferred (and in fact it's not the same as the type of <code>X</code> on the left-hand side, which is <code>d</code>). </p>
+
+<p>It's also possible to write constraints that do not allow for any assignment. In this case, Ivy complains that the provided match is inconsistent.</p>
+</div>
+      <hr />
+      <h2 id="backlinks">Backlinks</h2>
+      <div class="backlinks">
+
+<ul>
+<li><a href="alpha-renaming.html">alpha renaming</a></li>
+<li><a href="fresh-name.html">fresh name</a></li>
+<li><a href="freshness-qualifier.html">freshness qualifier</a></li>
+<li><a href="instantiation.html">instantiation</a></li>
+<li><a href="keywords.html">keywords</a></li>
+<li><a href="primitive-judgment.html">primitive judgment</a></li>
+<li><a href="recovering-decidability.html">recovering decidability</a></li>
+<li><a href="schema.html">schema</a></li>
+<li><a href="theorem.html">theorem</a></li>
+</ul>
+
+</div>
+
+    </article>
+  </div>
+</body>
+
+</html>

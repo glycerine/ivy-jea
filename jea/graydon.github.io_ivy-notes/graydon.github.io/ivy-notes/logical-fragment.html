@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- IBM Plex Mono -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+  <!-- IBM Plex Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" href="main.css">
+
+  <title>logical fragment</title>
+</head>
+
+<body>
+  <div class="grid">
+    <nav>
+      <div>
+        <h2><a href="index.html">Ivy notes</a></h2>
+        <p>A personal expansion and reorganization of the Ivy project's documentation.</p>
+        <br/>
+        <br/>
+        <li><a href="http://microsoft.github.io/ivy/">Ivy website</a></li>
+        <li><a href="https://github.com/kenmcmil/ivy">Ivy github</a></li>
+      </div>
+      <div>
+        <h3>Navigation</h3>
+        <ul>
+          <li><a href="lexical-structure.html">Lexical structure</a></li>
+          <li><a href="keywords.html">Keywords</a></li>
+          <li><a href="declaration.html">Declarations</a></li>
+          <li><a href="definition.html">Definitions</a></li>
+          <li><a href="expression.html">Expressions</a></li>
+          <li><a href="action.html">Actions</a></li>
+          <li><a href="statement.html">Statements</a></li>
+          <li><a href="property.html">Properties</a> and <a href="theorem.html">Theorems</a></li>
+          <li><a href="isolate.html">Isolates</a> and <a href="invariant.html">Invariants</a></li>
+          <li><a href="assume-guarantee-reasoning.html">Assume-Guarantee reasoning</a></li>
+          <li><a href="logical-fragment.html">Logical fragment</a></li>
+          <li><a href="verification-condition.html">Verification conditions</a></li>
+          <li><a href="recovering-decidability.html">Recovering decidability</a></li>
+          <li><a href="proof.html">Proof</a> and <a href="tactic.html">Tactics</a></li>
+          <li><a href="command.html">Commands</a></li>
+          <li><a href="further-info.html">Further info</a></li>
+        </ul>
+      </div>
+      <div class="footer">
+        <p>Notes taken with <a href="http://obsidian.md">obsidian</a></p>
+        <p>Rendered with <a href="http://github.com/kmaasrud/oboe">oboe</a></p>
+      </div>
+    </nav>
+    <article>
+      <header>logical fragment</header>
+      <div id="content"><p>Ivy works with several different fragments of <a href="first-order-logic.html">first-order logic</a>.</p>
+
+<p>A fragment is just a restriction of the full set of possible <a href="term.html">terms</a> -- some terms are excluded. The trick is in choosing the set to exclude.</p>
+
+<p>The most important fragment in Ivy is called <a href="finite-almost-uninterpreted.html">FAU</a>. By default, Ivy checks that every <a href="verification-condition.html">verification condition</a> is in FAU and rejects those that fall outside of it. Understanding FAU is fairly important to understanding how to <a href="recovering-decidability.html">recover decidability</a> in an Ivy program, when the fragment checker rejects it.</p>
+
+<p>The underlying solver Z3 supports a complete decision procedure, based on quantifier instantiation, for FAU.</p>
+
+<p>See also some of the later papers in <a href="further-info.html">further info</a>.</p>
+
+<h2 id="fragments">Fragments</h2>
+
+<p>The fragment FAU is best understood by building up from simpler fragments, adding small extensions that each preserve decidability:</p>
+
+<ul>
+<li>The <a href="effectively-propositional.html">effectively propositional</a> fragment (EPR) is simplest</li>
+<li>The <a href="finite-essentially-uninterpreted.html">finite essentially uninterpreted</a> fragment (FEU) extends EPR</li>
+<li>The <a href="finite-almost-uninterpreted.html">finite almost uninterpreted</a> fragment (FAU) extends FEU</li>
+</ul>
+
+<h2 id="concepts">Concepts</h2>
+
+<p>The following concepts are used in explaining the fragments above. They are collected here for more direct exploration/reference:</p>
+
+<ul>
+<li><a href="first-order-logic.html">first-order logic</a></li>
+<li><a href="many-sorted-logic.html">many-sorted logic</a></li>
+<li><a href="ground-term.html">ground term</a>, <a href="quantifier.html">quantifier</a> and <a href="logical-variable.html">logical variable</a></li>
+<li><a href="theory-instantiation.html">theory instantiation</a> a.k.a. "interpretation"</li>
+<li><a href="quantifier-alternation.html">quantifier alternation</a></li>
+<li><a href="skolemization.html">skolemization</a></li>
+<li><a href="stratification.html">stratification</a></li>
+<li><a href="relevant-vocabulary.html">relevant vocabulary</a></li>
+<li><a href="arithmetic-literal.html">arithmetic literal</a></li>
+</ul>
+</div>
+      <hr />
+      <h2 id="backlinks">Backlinks</h2>
+      <div class="backlinks">
+
+<ul>
+<li><a href="effectively-propositional.html">effectively propositional</a></li>
+<li><a href="finite-almost-uninterpreted.html">finite almost uninterpreted</a></li>
+<li><a href="finite-essentially-uninterpreted.html">finite essentially uninterpreted</a></li>
+<li><a href="first-order-logic.html">first-order logic</a></li>
+<li><a href="function-cycle.html">function cycle</a></li>
+<li><a href="https://graydon.github.io/ivy-notes/ivy_check-command.html">ivy_check command</a></li>
+<li><a href="macro-definition.html">macro definition</a></li>
+<li><a href="positive-and-negative-occurrences.html">positive and negative occurrences</a></li>
+<li><a href="property.html">property</a></li>
+<li><a href="quantifier-alternation.html">quantifier alternation</a></li>
+<li><a href="recovering-decidability.html">recovering decidability</a></li>
+<li><a href="schema.html">schema</a></li>
+<li><a href="skolemization.html">skolemization</a></li>
+<li><a href="sort.html">sort</a></li>
+<li><a href="stratification.html">stratification</a></li>
+<li><a href="tactic.html">tactic</a></li>
+<li><a href="uninterpreted-function.html">uninterpreted function</a></li>
+<li><a href="verification-condition.html">verification condition</a></li>
+</ul>
+
+</div>
+
+    </article>
+  </div>
+</body>
+
+</html>

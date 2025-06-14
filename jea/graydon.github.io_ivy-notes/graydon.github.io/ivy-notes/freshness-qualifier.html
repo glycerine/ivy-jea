@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- IBM Plex Mono -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+  <!-- IBM Plex Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" href="main.css">
+
+  <title>freshness qualifier</title>
+</head>
+
+<body>
+  <div class="grid">
+    <nav>
+      <div>
+        <h2><a href="index.html">Ivy notes</a></h2>
+        <p>A personal expansion and reorganization of the Ivy project's documentation.</p>
+        <br/>
+        <br/>
+        <li><a href="http://microsoft.github.io/ivy/">Ivy website</a></li>
+        <li><a href="https://github.com/kenmcmil/ivy">Ivy github</a></li>
+      </div>
+      <div>
+        <h3>Navigation</h3>
+        <ul>
+          <li><a href="lexical-structure.html">Lexical structure</a></li>
+          <li><a href="keywords.html">Keywords</a></li>
+          <li><a href="declaration.html">Declarations</a></li>
+          <li><a href="definition.html">Definitions</a></li>
+          <li><a href="expression.html">Expressions</a></li>
+          <li><a href="action.html">Actions</a></li>
+          <li><a href="statement.html">Statements</a></li>
+          <li><a href="property.html">Properties</a> and <a href="theorem.html">Theorems</a></li>
+          <li><a href="isolate.html">Isolates</a> and <a href="invariant.html">Invariants</a></li>
+          <li><a href="assume-guarantee-reasoning.html">Assume-Guarantee reasoning</a></li>
+          <li><a href="logical-fragment.html">Logical fragment</a></li>
+          <li><a href="verification-condition.html">Verification conditions</a></li>
+          <li><a href="recovering-decidability.html">Recovering decidability</a></li>
+          <li><a href="proof.html">Proof</a> and <a href="tactic.html">Tactics</a></li>
+          <li><a href="command.html">Commands</a></li>
+          <li><a href="further-info.html">Further info</a></li>
+        </ul>
+      </div>
+      <div class="footer">
+        <p>Notes taken with <a href="http://obsidian.md">obsidian</a></p>
+        <p>Rendered with <a href="http://github.com/kmaasrud/oboe">oboe</a></p>
+      </div>
+    </nav>
+    <article>
+      <header>freshness qualifier</header>
+      <div id="content"><p><a href="keywords.html">Keyword</a>: <code>fresh</code></p>
+
+<p>A freshness qualifier may be applied to a <a href="schema.html">compound judgment</a> premise (such as a <code>function</code>, <code>relation</code>, <code>individual</code>).</p>
+
+<p>By marking a premise as <code>fresh</code>, any <a href="judgment-application.html">application</a> of the judgment has to supply a <a href="fresh-name.html">fresh name</a> for the premise.</p>
+
+<h2 id="example">Example:</h2>
+
+<pre><code class="plaintext lang-plaintext language-plaintext">schema elimE = {
+    type t
+    relation p(X:t)
+    property exists X. p(X)
+    fresh individual n:t
+    <span class="tag">----------------------</span>
+    property p(n)
+}
+
+type t
+relation succ(X:t,Y:t)
+axiom exists Y. succ(X,Y)
+function next(X:t):t
+
+property succ(X,next(X))
+proof {
+    apply elimE with
+        n = next(X),
+        p(Y) = succ(X,Y)
+}</code></pre>
+
+<p>In this example, the <code>elimE</code> <a href="schema.html">schema</a> is defined as requiring a <a href="fresh-name.html">fresh name</a> for the premise <code>n</code>. When the schema is <a href="judgment-application.html">applied</a> in the proof, <code>n</code> is bound to <code>next(X)</code>, which is fresh since no <a href="definition.html">definitions</a> or <a href="property.html">properties</a> have mentioned it yet.</p>
+</div>
+      <hr />
+      <h2 id="backlinks">Backlinks</h2>
+      <div class="backlinks">
+
+<ul>
+<li><a href="fresh-name.html">fresh name</a></li>
+<li><a href="keywords.html">keywords</a></li>
+</ul>
+
+</div>
+
+    </article>
+  </div>
+</body>
+
+</html>

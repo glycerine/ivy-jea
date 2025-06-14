@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- IBM Plex Mono -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+  <!-- IBM Plex Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" href="main.css">
+
+  <title>module</title>
+</head>
+
+<body>
+  <div class="grid">
+    <nav>
+      <div>
+        <h2><a href="index.html">Ivy notes</a></h2>
+        <p>A personal expansion and reorganization of the Ivy project's documentation.</p>
+        <br/>
+        <br/>
+        <li><a href="http://microsoft.github.io/ivy/">Ivy website</a></li>
+        <li><a href="https://github.com/kenmcmil/ivy">Ivy github</a></li>
+      </div>
+      <div>
+        <h3>Navigation</h3>
+        <ul>
+          <li><a href="lexical-structure.html">Lexical structure</a></li>
+          <li><a href="keywords.html">Keywords</a></li>
+          <li><a href="declaration.html">Declarations</a></li>
+          <li><a href="definition.html">Definitions</a></li>
+          <li><a href="expression.html">Expressions</a></li>
+          <li><a href="action.html">Actions</a></li>
+          <li><a href="statement.html">Statements</a></li>
+          <li><a href="property.html">Properties</a> and <a href="theorem.html">Theorems</a></li>
+          <li><a href="isolate.html">Isolates</a> and <a href="invariant.html">Invariants</a></li>
+          <li><a href="assume-guarantee-reasoning.html">Assume-Guarantee reasoning</a></li>
+          <li><a href="logical-fragment.html">Logical fragment</a></li>
+          <li><a href="verification-condition.html">Verification conditions</a></li>
+          <li><a href="recovering-decidability.html">Recovering decidability</a></li>
+          <li><a href="proof.html">Proof</a> and <a href="tactic.html">Tactics</a></li>
+          <li><a href="command.html">Commands</a></li>
+          <li><a href="further-info.html">Further info</a></li>
+        </ul>
+      </div>
+      <div class="footer">
+        <p>Notes taken with <a href="http://obsidian.md">obsidian</a></p>
+        <p>Rendered with <a href="http://github.com/kmaasrud/oboe">oboe</a></p>
+      </div>
+    </nav>
+    <article>
+      <header>module</header>
+      <div id="content"><p><a href="keywords.html">Keyword</a>: <code>module</code></p>
+
+<p>A module in Ivy is a group of declarations that can be <a href="module-instantiation.html">instantiated</a>.</p>
+
+<p>In this way it is similar to a template class in an object-oriented programming language.</p>
+
+<p>Any Ivy <a href="declaration.html">declaration</a> can be contained in a module.</p>
+
+<p>An instance of a module is called an <a href="object.html">object</a>, and there is special syntax for declaring a <a href="singleton-object.html">singleton object</a> that is the sole instance of a module. A further special type of object is an <a href="isolate.html">isolate</a>, which is verified in isolation from other objects.</p>
+
+<p>Besides defining classes of objects, modules can be used to capture a re-usable theory, or structure a modular proof.</p>
+
+<p>Declarations within modules are subject to <a href="visibility-qualifiers.html">visibility qualifiers</a>, that limit how module members may be seen when verified as an <a href="isolate.html">isolate</a>.</p>
+
+<h2 id="examples">Examples:</h2>
+
+<h2 id="example-counter">Example: counter</h2>
+
+<p>Here is a simple example of a module representing an up/down counter<br />
+with a test for zero:</p>
+
+<pre><code class="plaintext lang-plaintext language-plaintext">module counter(t) = {
+    individual val : t
+
+    after init {
+        val := 0
+    }
+
+    action up = {
+        val := val + 1
+    }
+
+    action down = {
+        val := val - 1
+    }
+
+    action is_zero returns(z : bool) = {
+        z := (val = 0)
+    }
+}</code></pre>
+
+<p>This module takes a single parameter <code>t</code> which is the type of the counter value <code>val</code>.</p>
+
+<h3 id="example-a-theory-of-partial-order">Example: a theory of partial order</h3>
+
+<p>As an example, here is a module representing a theory of partial orders:</p>
+
+<pre><code class="plaintext lang-plaintext language-plaintext">module po(t,lt) = {
+    axiom lt(X:t,Y) & lt(Y,Z) -> lt(X,Z)
+    axiom ~(lt(X:t,Y) & lt(Y,X))
+}</code></pre>
+
+<p>This module takes a <a href="type.html">type</a> <code>t</code> and a <a href="relation.html">relation</a> <code>lt</code> over <code>t</code>. It provides axioms stating that <code>lt</code> is transitive and antisymmetric.</p>
+</div>
+      <hr />
+      <h2 id="backlinks">Backlinks</h2>
+      <div class="backlinks">
+
+<ul>
+<li><a href="alias.html">alias</a></li>
+<li><a href="autoinstance.html">autoinstance</a></li>
+<li><a href="declaration.html">declaration</a></li>
+<li><a href="declared-variable.html">declared variable</a></li>
+<li><a href="existential-quantifier.html">existential quantifier</a></li>
+<li><a href="instantiation.html">instantiation</a></li>
+<li><a href="invariant.html">invariant</a></li>
+<li><a href="isolate.html">isolate</a></li>
+<li><a href="keywords.html">keywords</a></li>
+<li><a href="mixin.html">mixin</a></li>
+<li><a href="module-instantiation.html">module instantiation</a></li>
+<li><a href="object.html">object</a></li>
+<li><a href="program.html">program</a></li>
+<li><a href="singleton-object.html">singleton object</a></li>
+<li><a href="universal-quantifier.html">universal quantifier</a></li>
+<li><a href="visibility-qualifiers.html">visibility qualifiers</a></li>
+</ul>
+
+</div>
+
+    </article>
+  </div>
+</body>
+
+</html>

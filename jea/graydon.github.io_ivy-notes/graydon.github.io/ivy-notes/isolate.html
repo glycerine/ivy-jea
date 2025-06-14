@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- IBM Plex Mono -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+  <!-- IBM Plex Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" href="main.css">
+
+  <title>isolate</title>
+</head>
+
+<body>
+  <div class="grid">
+    <nav>
+      <div>
+        <h2><a href="index.html">Ivy notes</a></h2>
+        <p>A personal expansion and reorganization of the Ivy project's documentation.</p>
+        <br/>
+        <br/>
+        <li><a href="http://microsoft.github.io/ivy/">Ivy website</a></li>
+        <li><a href="https://github.com/kenmcmil/ivy">Ivy github</a></li>
+      </div>
+      <div>
+        <h3>Navigation</h3>
+        <ul>
+          <li><a href="lexical-structure.html">Lexical structure</a></li>
+          <li><a href="keywords.html">Keywords</a></li>
+          <li><a href="declaration.html">Declarations</a></li>
+          <li><a href="definition.html">Definitions</a></li>
+          <li><a href="expression.html">Expressions</a></li>
+          <li><a href="action.html">Actions</a></li>
+          <li><a href="statement.html">Statements</a></li>
+          <li><a href="property.html">Properties</a> and <a href="theorem.html">Theorems</a></li>
+          <li><a href="isolate.html">Isolates</a> and <a href="invariant.html">Invariants</a></li>
+          <li><a href="assume-guarantee-reasoning.html">Assume-Guarantee reasoning</a></li>
+          <li><a href="logical-fragment.html">Logical fragment</a></li>
+          <li><a href="verification-condition.html">Verification conditions</a></li>
+          <li><a href="recovering-decidability.html">Recovering decidability</a></li>
+          <li><a href="proof.html">Proof</a> and <a href="tactic.html">Tactics</a></li>
+          <li><a href="command.html">Commands</a></li>
+          <li><a href="further-info.html">Further info</a></li>
+        </ul>
+      </div>
+      <div class="footer">
+        <p>Notes taken with <a href="http://obsidian.md">obsidian</a></p>
+        <p>Rendered with <a href="http://github.com/kmaasrud/oboe">oboe</a></p>
+      </div>
+    </nav>
+    <article>
+      <header>isolate</header>
+      <div id="content"><p><a href="keywords.html">Keywords</a>: <code>isolate</code>, <code>trusted</code></p>
+
+<p>An isolate is an isolated (or "modular") context for verification.</p>
+
+<p>An isolate is also an <a href="object.html">object</a>, meaning that is an instance of a <a href="module.html">module</a>. Declaring an isolate therefore requires either <a href="declaration.html">declaring</a> and defining an object in-line, or else declaring that an existing object is an isolate (i.e. that it should be verified in isolation).</p>
+
+<p>The isolation of an isolate is not total: the <code>specification</code> portions of other objects may be made available to the isolate through a trailing <code>... with &lt;others&gt;</code> clause after the isolate declaration. Splitting an object's declarations into separate specifications and implementations is supported through <a href="visibility-qualifiers.html">visibility qualifiers</a>.</p>
+
+<p>By default, every program has a single top-level isolate (which is anonymous but can be denoted by <code>this</code> at the top-level). </p>
+
+<p>Additional isolates can be declared inside the program in a variety of forms:</p>
+
+<ul>
+<li><code>isolate &lt;symbol&gt; = { ... }</code> declares and defines an object as an isolate</li>
+<li><code>isolate &lt;symbol&gt; = &lt;symbol&gt;</code> declares that an existing object should be isolated</li>
+<li><code>isolate &lt;symbol&gt; = &lt;symbol&gt; with &lt;other_isolate&gt;</code> and</li>
+<li><code>isolate &lt;symbol&gt; = { ... } with &lt;other_isolate&gt;</code> declares an isolate that includes the specification portion of the isolate <code>&lt;other_isolate&gt;</code></li>
+</ul>
+
+<p>Additional isolates do not automatically have visible access to their enclosing isolate. Instead, they may be given such access by declaring them using <code>isolate ... with this</code></p>
+
+<p>If an isolate is declared as <code>trusted isolate ...</code> it will be considered as verified without proof. This may be useful for isolates that contain <a href="import.html">imported</a> actions, or or as a temporary measure during development. </p>
+
+<h2 id="example">Example:</h2>
+
+<pre><code class="plaintext lang-plaintext language-plaintext">isolate evens = {
+
+    action step
+    action put(n:num)
+
+    specification {
+        before put {
+            require n.even
+        }
+    }
+
+    implementation {
+
+        var number : num
+        after init {
+            number := 0
+        }
+
+        implement step {
+            call odds.put(number + 1)
+        }
+
+        implement put(n:num) {
+            number := n;
+        }
+
+        invariant number.even
+    }
+}
+with odds,num
+
+isolate odds = {
+
+    action step
+    action put(n:num)
+
+    specification {
+        before put {
+            require n.odd
+        }
+    }
+
+    implementation {
+
+        var number : num
+        after init {
+            number := 1
+        }
+
+        implement step {
+            call evens.put(number + 1)
+        }
+
+        implement put {
+            number := n;
+        }
+
+        invariant number.odd
+
+    }
+}
+with evens,num</code></pre>
+
+<p>This is a pair of isolates that depend on one another. </p>
+
+<p>Effectively, this breaks the proof that the two assertions always hold into two parts. In the first part, we assume the object <code>evens</code> gets correct inputs and prove that it always sends correct outputs to <code>odds</code>. In the second part, we assume the object <code>odds</code> gets correct inputs and prove that it always sends correct outputs to <code>evens</code>.</p>
+
+<p>This argument seems circular on the surface. It isn't, though, because when we prove one of the assertion holds, we are only assuming that the other assertion has always held <em>in the past</em>. So what we're really proving is that neither of the two objects is the first to break the rules, and so the rules always hold.</p>
+
+<p>In the first isolate, we prove the assertion that <code>evens</code> guarantees. We do this using the visible part of <code>odds</code>, but we forget about the hidden state of the <code>odds</code> object (in particular, the variable <code>odss.number</code>). To model the call to <code>evens.put</code> in the hidden part of <code>odds</code>, Ivy exports <code>evens.put</code> to the environment. The <code>requires</code> statement in the specification <code>even.put</code> thus becomes a guarantee of the environment. That is, each isolate only guarantees those assertions for which it receives the blame. The rest are assumed.</p>
+
+<p>When we verifiy isolate <code>evens</code>, the result is as if we had actually entered the following program:</p>
+
+<pre><code class="plaintext lang-plaintext language-plaintext">object nat {
+    ...
+}
+
+object evens = {
+    var number : nat
+    after init {
+        number := 0
+    }
+
+    action step = {
+        call odds.put(number + 1)
+    }
+
+    action put(n:nat) = {
+        require even(nat)
+        number := n;
+    }
+
+    invariant number.even
+}
+
+object odds = {
+
+    action put(n:nat) = {
+        require odd(nat)
+    }
+}
+
+export evens.step
+export evens.put</code></pre>
+
+<p>Notice the implementation of <code>odds.put</code> has been eliminated, and what remains is just the assertion that the input value is odd (Ivy verifies that the eliminated side effect of <code>odds.put</code> is in fact invisible to <code>evens</code>). The <a href="assertion.html">assertion</a> that inputs to <code>evens</code> are even has in effect become an <a href="assumption.html">assumption</a>. We can prove this isolate is safe by showing that <code>even.number</code> is <a href="invariant.html">invariantly</a> even, which means that <code>odds.put</code> is always called with an odd number.</p>
+
+<p>The other isolate, <code>odds</code>, looks like this:</p>
+
+<pre><code class="plaintext lang-plaintext language-plaintext">object nat {
+    ...
+}
+
+object evens = {
+    action put(n:nat) = {
+        require even(nat)
+    }
+}
+
+object odds = {
+    var number : nat
+    after init {
+        number = 1
+    }
+
+    action step = {
+        call evens.put(number + 1)
+    }
+
+    action put(n:nat) = {
+        require odd(nat)
+        number := n;
+    }
+
+    invariant number.odd
+}
+
+export odds.step
+export odds.put</code></pre>
+
+<p>If both of these isolates are safe, then we know that neither assertion is the first to fail, so the original program is safe.</p>
+
+<p>The general rule is that a <code>require</code> assertion is a guarantee for the calling isolate and and assumption for the called isolate, while an <code>ensure</code> action is a guarantee for the called isolate and an assumption for the calling isolate. When we verify an isolate, we check only those assertions that are gurantees for actions in the isolate.</p>
+</div>
+      <hr />
+      <h2 id="backlinks">Backlinks</h2>
+      <div class="backlinks">
+
+<ul>
+<li><a href="action.html">action</a></li>
+<li><a href="assume-guarantee-reasoning.html">assume-guarantee reasoning</a></li>
+<li><a href="assumption.html">assumption</a></li>
+<li><a href="code-extraction.html">code extraction</a></li>
+<li><a href="command.html">command</a></li>
+<li><a href="declaration.html">declaration</a></li>
+<li><a href="export.html">export</a></li>
+<li><a href="guarantee.html">guarantee</a></li>
+<li><a href="invariant.html">invariant</a></li>
+<li><a href="https://graydon.github.io/ivy-notes/ivy_check-command.html">ivy_check command</a></li>
+<li><a href="https://graydon.github.io/ivy-notes/ivy_to_cpp-command.html">ivy_to_cpp command</a></li>
+<li><a href="keywords.html">keywords</a></li>
+<li><a href="module.html">module</a></li>
+<li><a href="object.html">object</a></li>
+<li><a href="singleton-object.html">singleton object</a></li>
+<li><a href="stratification.html">stratification</a></li>
+<li><a href="visibility-qualifiers.html">visibility qualifiers</a></li>
+<li><a href="weakest-liberal-precondition.html">weakest liberal precondition</a></li>
+</ul>
+
+</div>
+
+    </article>
+  </div>
+</body>
+
+</html>

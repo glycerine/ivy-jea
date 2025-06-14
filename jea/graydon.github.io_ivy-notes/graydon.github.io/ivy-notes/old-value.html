@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- IBM Plex Mono -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+  <!-- IBM Plex Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" href="main.css">
+
+  <title>old value</title>
+</head>
+
+<body>
+  <div class="grid">
+    <nav>
+      <div>
+        <h2><a href="index.html">Ivy notes</a></h2>
+        <p>A personal expansion and reorganization of the Ivy project's documentation.</p>
+        <br/>
+        <br/>
+        <li><a href="http://microsoft.github.io/ivy/">Ivy website</a></li>
+        <li><a href="https://github.com/kenmcmil/ivy">Ivy github</a></li>
+      </div>
+      <div>
+        <h3>Navigation</h3>
+        <ul>
+          <li><a href="lexical-structure.html">Lexical structure</a></li>
+          <li><a href="keywords.html">Keywords</a></li>
+          <li><a href="declaration.html">Declarations</a></li>
+          <li><a href="definition.html">Definitions</a></li>
+          <li><a href="expression.html">Expressions</a></li>
+          <li><a href="action.html">Actions</a></li>
+          <li><a href="statement.html">Statements</a></li>
+          <li><a href="property.html">Properties</a> and <a href="theorem.html">Theorems</a></li>
+          <li><a href="isolate.html">Isolates</a> and <a href="invariant.html">Invariants</a></li>
+          <li><a href="assume-guarantee-reasoning.html">Assume-Guarantee reasoning</a></li>
+          <li><a href="logical-fragment.html">Logical fragment</a></li>
+          <li><a href="verification-condition.html">Verification conditions</a></li>
+          <li><a href="recovering-decidability.html">Recovering decidability</a></li>
+          <li><a href="proof.html">Proof</a> and <a href="tactic.html">Tactics</a></li>
+          <li><a href="command.html">Commands</a></li>
+          <li><a href="further-info.html">Further info</a></li>
+        </ul>
+      </div>
+      <div class="footer">
+        <p>Notes taken with <a href="http://obsidian.md">obsidian</a></p>
+        <p>Rendered with <a href="http://github.com/kmaasrud/oboe">oboe</a></p>
+      </div>
+    </nav>
+    <article>
+      <header>old value</header>
+      <div id="content"><p><a href="keywords.html">Keyword</a>:  <code>old</code></p>
+
+<p>In logical statements within an action -- such as <a href="assertion.html">assertions</a> or <a href="loop.html">loop</a> invariants -- an <a href="expression.html">expression</a> <code>old &lt;expr&gt;</code> refers to the values of the <a href="state-variable.html">state variables</a> in <code>&lt;expr&gt;</code> before the <a href="transition-relation.html">transition relation</a> that the enclosing action or statement models.</p>
+
+<h2 id="examples">Examples:</h2>
+
+<h3 id="example-old-state-variable-in-postcondition">Example: old state variable in postcondition</h3>
+
+<p>Suppose we have a function <code>reverse2</code> that reverses a <a href="state-variable.html">state variable</a> <code>x</code> twice, leaving it equal to the value it started with. Then the following <a href="mixin.html">mixin</a> can be written that uses <code>old</code> to refer to the old value along with the new one:</p>
+
+<pre><code class="plaintext lang-plaintext language-plaintext">specification {
+    after reverse2 {
+        ensure x = old x
+    }
+}
+implementation {
+    implement reverse2 {
+        x := my_rev.reverse(x);
+        x := my_rev.reverse(x);
+    }
+}</code></pre>
+
+<h3 id="example-old-state-variable-in-loop-invariant">Example: old state variable in loop invariant</h3>
+
+<p>The following example implements array reversal in terms of a <code>while</code> <a href="loop.html">loop</a>. The loop invariant refers to the array's state at each iteration of the loop and relates it to the <code>old</code> state of the array, in the previous iteration (or the state on-entry to the loop).</p>
+
+<pre><code class="plaintext lang-plaintext language-plaintext">    implement reverse {
+        if a.end > 0 {
+            var i : idx := 0;
+            var j := rt.reverse(i,a.end);
+            while i < j
+            invariant 0 <= i & i <= a.end & a.end = old a.end & rt.rev(a.end,i,j)
+            invariant forall I. (0 <= I & I < i | j < I & I < a.end) 
+                                & rt.rev(a.end,I,J)-> a.value(J) = old a.value(I)
+            invariant i <= I & I <= j -> a.value(I) = old a.value(I)
+            {
+                var tmp := a.value(j);
+                a := a.set(j,a.value(i));
+                a := a.set(i,tmp);
+                i := i.next;
+                j := rt.reverse(i,a.end);
+            };
+        }
+    }</code></pre>
+</div>
+      <hr />
+      <h2 id="backlinks">Backlinks</h2>
+      <div class="backlinks">
+
+<ul>
+<li><a href="keywords.html">keywords</a></li>
+</ul>
+
+</div>
+
+    </article>
+  </div>
+</body>
+
+</html>

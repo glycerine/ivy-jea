@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- IBM Plex Mono -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+  <!-- IBM Plex Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" href="main.css">
+
+  <title>proof</title>
+</head>
+
+<body>
+  <div class="grid">
+    <nav>
+      <div>
+        <h2><a href="index.html">Ivy notes</a></h2>
+        <p>A personal expansion and reorganization of the Ivy project's documentation.</p>
+        <br/>
+        <br/>
+        <li><a href="http://microsoft.github.io/ivy/">Ivy website</a></li>
+        <li><a href="https://github.com/kenmcmil/ivy">Ivy github</a></li>
+      </div>
+      <div>
+        <h3>Navigation</h3>
+        <ul>
+          <li><a href="lexical-structure.html">Lexical structure</a></li>
+          <li><a href="keywords.html">Keywords</a></li>
+          <li><a href="declaration.html">Declarations</a></li>
+          <li><a href="definition.html">Definitions</a></li>
+          <li><a href="expression.html">Expressions</a></li>
+          <li><a href="action.html">Actions</a></li>
+          <li><a href="statement.html">Statements</a></li>
+          <li><a href="property.html">Properties</a> and <a href="theorem.html">Theorems</a></li>
+          <li><a href="isolate.html">Isolates</a> and <a href="invariant.html">Invariants</a></li>
+          <li><a href="assume-guarantee-reasoning.html">Assume-Guarantee reasoning</a></li>
+          <li><a href="logical-fragment.html">Logical fragment</a></li>
+          <li><a href="verification-condition.html">Verification conditions</a></li>
+          <li><a href="recovering-decidability.html">Recovering decidability</a></li>
+          <li><a href="proof.html">Proof</a> and <a href="tactic.html">Tactics</a></li>
+          <li><a href="command.html">Commands</a></li>
+          <li><a href="further-info.html">Further info</a></li>
+        </ul>
+      </div>
+      <div class="footer">
+        <p>Notes taken with <a href="http://obsidian.md">obsidian</a></p>
+        <p>Rendered with <a href="http://github.com/kmaasrud/oboe">oboe</a></p>
+      </div>
+    </nav>
+    <article>
+      <header>proof</header>
+      <div id="content"><p><a href="keywords.html">Keyword</a>: <code>proof</code></p>
+
+<p>A proof is a sequence of <a href="tactic.html">tactic</a> invocations that either names or trails a <a href="logical-judgment.html">logical judgment</a> establshing its validity.</p>
+
+<p>Multiple tactic invocations may optionally be separated by a semicolon (<code>;</code>) and the entire proof may be (and typically is) enclosed in curly braces (<code>{...}</code>)</p>
+
+<p>If a proof is not supplied for a judgment, Ivy's default <a href="tactic.html">tactic</a> will attempt to prove validity automatically.</p>
+
+<h2 id="examples">Examples:</h2>
+
+<h3 id="example-proof-trailing-a-judgment">Example: proof trailing a judgment</h3>
+
+<pre><code class="plaintext lang-plaintext language-plaintext">include deduction
+
+theorem [symm] {
+    type t
+    property X:t = Y
+    property Y:t = X
+}
+proof { 
+    apply introEq;
+    apply elimEq with x = X, y = Y
+}</code></pre>
+
+<p>This proof follows the <a href="theorem.html">theorem</a> named <code>[symm]</code> and consists of two <code>apply</code> tactics. </p>
+
+<p>The first tactic applies the labeled <a href="axiom-schema.html">axiom schema</a> <code>introEq</code>  from Ivy's <code>deduction</code> standard header, allowing Ivy to unify the premises of that axiom schema with the proof goal.</p>
+
+<p>The second applies the <code>elimEq</code> axiom schema (also from the <code>deduction</code> header) and explicitly instantiates the premises <code>x</code> and <code>y</code> of that axiom schema with the goal variables <code>X</code> and <code>Y</code></p>
+
+<h3 id="example-separate-proof-declaration">Example: separate proof declaration</h3>
+
+<pre><code class="plaintext lang-plaintext language-plaintext">include deduction
+
+theorem [symm] {
+    type t
+    property X:t = Y
+    property Y:t = X
+}
+
+type j
+individual k:j
+
+# ... sometime later
+proof [symm] {
+    apply introEq;
+    apply elimEq with x = X, y = Y
+}</code></pre>
+
+<p>This proof is identical to the first example, but shows that a proof can be given for a labeled judgment in some significantly-later declaration, by referring to the label of the judgment.</p>
+</div>
+      <hr />
+      <h2 id="backlinks">Backlinks</h2>
+      <div class="backlinks">
+
+<ul>
+<li><a href="alpha-renaming.html">alpha renaming</a></li>
+<li><a href="axiom.html">axiom</a></li>
+<li><a href="axiom-schema.html">axiom schema</a></li>
+<li><a href="definition.html">definition</a></li>
+<li><a href="explicit-quantifier-instantiation.html">explicit quantifier instantiation</a></li>
+<li><a href="instantiation.html">instantiation</a></li>
+<li><a href="https://graydon.github.io/ivy-notes/ivy_check-command.html">ivy_check command</a></li>
+<li><a href="judgment-application.html">judgment application</a></li>
+<li><a href="keywords.html">keywords</a></li>
+<li><a href="primitive-judgment.html">primitive judgment</a></li>
+<li><a href="property.html">property</a></li>
+<li><a href="schema.html">schema</a></li>
+<li><a href="skolemization.html">skolemization</a></li>
+<li><a href="tactic.html">tactic</a></li>
+<li><a href="theorem.html">theorem</a></li>
+<li><a href="verification-condition.html">verification condition</a></li>
+</ul>
+
+</div>
+
+    </article>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- IBM Plex Mono -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+  <!-- IBM Plex Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" href="main.css">
+
+  <title>verification condition</title>
+</head>
+
+<body>
+  <div class="grid">
+    <nav>
+      <div>
+        <h2><a href="index.html">Ivy notes</a></h2>
+        <p>A personal expansion and reorganization of the Ivy project's documentation.</p>
+        <br/>
+        <br/>
+        <li><a href="http://microsoft.github.io/ivy/">Ivy website</a></li>
+        <li><a href="https://github.com/kenmcmil/ivy">Ivy github</a></li>
+      </div>
+      <div>
+        <h3>Navigation</h3>
+        <ul>
+          <li><a href="lexical-structure.html">Lexical structure</a></li>
+          <li><a href="keywords.html">Keywords</a></li>
+          <li><a href="declaration.html">Declarations</a></li>
+          <li><a href="definition.html">Definitions</a></li>
+          <li><a href="expression.html">Expressions</a></li>
+          <li><a href="action.html">Actions</a></li>
+          <li><a href="statement.html">Statements</a></li>
+          <li><a href="property.html">Properties</a> and <a href="theorem.html">Theorems</a></li>
+          <li><a href="isolate.html">Isolates</a> and <a href="invariant.html">Invariants</a></li>
+          <li><a href="assume-guarantee-reasoning.html">Assume-Guarantee reasoning</a></li>
+          <li><a href="logical-fragment.html">Logical fragment</a></li>
+          <li><a href="verification-condition.html">Verification conditions</a></li>
+          <li><a href="recovering-decidability.html">Recovering decidability</a></li>
+          <li><a href="proof.html">Proof</a> and <a href="tactic.html">Tactics</a></li>
+          <li><a href="command.html">Commands</a></li>
+          <li><a href="further-info.html">Further info</a></li>
+        </ul>
+      </div>
+      <div class="footer">
+        <p>Notes taken with <a href="http://obsidian.md">obsidian</a></p>
+        <p>Rendered with <a href="http://github.com/kmaasrud/oboe">oboe</a></p>
+      </div>
+    </nav>
+    <article>
+      <header>verification condition</header>
+      <div id="content"><p>A <strong>verification condition</strong> is a <a href="formula.html">formula</a> that, if valid, implies the correctness of an <a href="action.html">action</a>, <a href="logical-judgment.html">logical judgment</a>, or logical <a href="statement.html">statement</a>.</p>
+
+<p>Ivy's default <a href="tactic.html">tactic</a> for a <a href="proof.html">proof</a> automatically generates a verification condition for the context requiring the proof. If the verification condition does not fall within the FAU <a href="logical-fragment.html">logical fragment</a>, the user will need to participate in <a href="recovering-decidability.html">constructing a proof or changing the context</a>.</p>
+
+<p>The same default verification condition generation tactic is involved in proving a free-standing <a href="logical-judgment.html">logical judgment</a> or an <a href="assertion.html">assertion</a>, <a href="precondition.html">precondition</a> or <a href="postcondition.html">postcondition</a> statement inside an action. Only the input to the tactic varies depending on context.</p>
+
+<p>This tactic can also be invoked explicitly within a manual proof with <code>tactic vcgen</code>.</p>
+
+<p>Anywhere a proof is required but not provided, it is equivalent to there being a proof consisting of <code>tactic vcgen</code>.</p>
+
+<p>Verification conditions in Ivy are generated from the calculus of <a href="weakest-liberal-precondition.html">weakest liberal preconditions</a>.</p>
+
+<p>For example, the following program:</p>
+
+<pre><code class="plaintext lang-plaintext language-plaintext">type t
+interpret t -> nat
+
+action decr(x:t) returns (y:t) = {
+    require x > 0;
+    y := x - 1;
+    ensure y < x;
+}
+
+export decr</code></pre>
+
+<p>has the following VC:</p>
+
+<pre><code class="plaintext lang-plaintext language-plaintext">x > 0 -> x - 1 < x</code></pre>
+
+<p>See the page on <a href="weakest-liberal-precondition.html">weakest liberal precondition</a> for details on exactly how it is calculated.</p>
+
+<h2 id="checking-vcs-with-smt-solvers">Checking VCs with SMT solvers</h2>
+
+<p>A typical <a href="https://en.wikipedia.org/wiki/Satisfiability_modulo_theories">SMT solver</a> solver (including Z3, the one Ivy uses) can determine definitely whether this <a href="formula.html">formula</a> is satisfiable, since it is expressed in the form of affine constraints over the natural numbers without quantifiers. Solving constraints of this kind is an NP-complete problem. This means that all known solution algorithms use exponential time in the worst case, but in practice we can almost always solve problems that have a moderate number of variables.</p>
+
+<p>More generally, a typical SMT solver can handle a theory called QFLIA, which stands for "quantifier-free linear integer arithmetic" and allows us to form arbitrary combinations of affine constraints with "and", "or" and "not". We can easily reduce formulas with natural-number variables to formulas using only integer variables, so the solver doesn't need a special theory for natural numbers.</p>
+
+<p>Technically, the way this is done is by <em>negating</em> the formula, then passing it to the solver to determine if it is <em>satisfiable</em>. In this case, the negated verification condition is:</p>
+
+<pre><code class="plaintext lang-plaintext language-plaintext">~(x > 0 -> x - 1 < x)</code></pre>
+
+<p>which is logically equivalent to:</p>
+
+<pre><code class="plaintext lang-plaintext language-plaintext">x > 0 & x - 1 >= x</code></pre>
+
+<p>We can easily see that this is unsatisfiable, in the sense that there is no natural number <code>x</code> that makes it true.</p>
+
+<p>If the negated verification condition has a solution, it means that the verification condition is not valid, so something is wrong with our proof. Suppose, for example, we change the precondition of action <code>decr</code> from <code>x &gt; 0</code> to <code>x &lt; 42</code>. The negated verification condition becomes:</p>
+
+<pre><code class="plaintext lang-plaintext language-plaintext">x < 42 & x - 1 >= x</code></pre>
+
+<h2 id="models-and-counter-models">Models and counter-models</h2>
+
+<p>In Ivy's natural number theory, we have <code>0 - 1 = 0</code>. That means that the above formula is actually true for <code>x = 0</code>. The assignment <code>x = 0</code> is called a <em>model</em> of the formula, that is, it describes a possible situation in which the formula is true. That means the assignment <code>x = 0</code> is also a <em>counter-model</em> for the verification condition: it shows<br />
+why the proof doesn't work.</p>
+
+<p>Counter-models are extremely important from the point of view of transparency.  That is, if our proof fails, we need a clear explanation of the failure so we can correct the system or its specification.</p>
+
+<h2 id="positive-and-negative-occurrences-of-formulas-in-vcs">Positive and negative occurrences of formulas in VCs</h2>
+
+<p>Verification conditions for even moderately complex programs are big messy formulas that are hard to read. Fortunately, from the point of view of decidability, we need not be concerned with the exact form of the VC. Rather, for each formula occurring in the program or its specifications, we will be concerned with whether the formula occurs <a href="positive-and-negative-occurrences.html">positively in the VC, or negatively</a> or both. </p>
+</div>
+      <hr />
+      <h2 id="backlinks">Backlinks</h2>
+      <div class="backlinks">
+
+<ul>
+<li><a href="assumption.html">assumption</a></li>
+<li><a href="command.html">command</a></li>
+<li><a href="effectively-propositional.html">effectively propositional</a></li>
+<li><a href="first-order-logic.html">first-order logic</a></li>
+<li><a href="ghost.html">ghost</a></li>
+<li><a href="guarantee.html">guarantee</a></li>
+<li><a href="invariant.html">invariant</a></li>
+<li><a href="logical-fragment.html">logical fragment</a></li>
+<li><a href="macro-definition.html">macro definition</a></li>
+<li><a href="positive-and-negative-occurrences.html">positive and negative occurrences</a></li>
+<li><a href="postcondition.html">postcondition</a></li>
+<li><a href="precondition.html">precondition</a></li>
+<li><a href="property.html">property</a></li>
+<li><a href="recovering-decidability.html">recovering decidability</a></li>
+<li><a href="sort.html">sort</a></li>
+<li><a href="stratification.html">stratification</a></li>
+<li><a href="tactic.html">tactic</a></li>
+<li><a href="theorem.html">theorem</a></li>
+<li><a href="transition-relation.html">transition relation</a></li>
+<li><a href="weakest-liberal-precondition.html">weakest liberal precondition</a></li>
+</ul>
+
+</div>
+
+    </article>
+  </div>
+</body>
+
+</html>

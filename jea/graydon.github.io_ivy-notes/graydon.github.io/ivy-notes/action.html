@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- IBM Plex Mono -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+  <!-- IBM Plex Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" href="main.css">
+
+  <title>action</title>
+</head>
+
+<body>
+  <div class="grid">
+    <nav>
+      <div>
+        <h2><a href="index.html">Ivy notes</a></h2>
+        <p>A personal expansion and reorganization of the Ivy project's documentation.</p>
+        <br/>
+        <br/>
+        <li><a href="http://microsoft.github.io/ivy/">Ivy website</a></li>
+        <li><a href="https://github.com/kenmcmil/ivy">Ivy github</a></li>
+      </div>
+      <div>
+        <h3>Navigation</h3>
+        <ul>
+          <li><a href="lexical-structure.html">Lexical structure</a></li>
+          <li><a href="keywords.html">Keywords</a></li>
+          <li><a href="declaration.html">Declarations</a></li>
+          <li><a href="definition.html">Definitions</a></li>
+          <li><a href="expression.html">Expressions</a></li>
+          <li><a href="action.html">Actions</a></li>
+          <li><a href="statement.html">Statements</a></li>
+          <li><a href="property.html">Properties</a> and <a href="theorem.html">Theorems</a></li>
+          <li><a href="isolate.html">Isolates</a> and <a href="invariant.html">Invariants</a></li>
+          <li><a href="assume-guarantee-reasoning.html">Assume-Guarantee reasoning</a></li>
+          <li><a href="logical-fragment.html">Logical fragment</a></li>
+          <li><a href="verification-condition.html">Verification conditions</a></li>
+          <li><a href="recovering-decidability.html">Recovering decidability</a></li>
+          <li><a href="proof.html">Proof</a> and <a href="tactic.html">Tactics</a></li>
+          <li><a href="command.html">Commands</a></li>
+          <li><a href="further-info.html">Further info</a></li>
+        </ul>
+      </div>
+      <div class="footer">
+        <p>Notes taken with <a href="http://obsidian.md">obsidian</a></p>
+        <p>Rendered with <a href="http://github.com/kmaasrud/oboe">oboe</a></p>
+      </div>
+    </nav>
+    <article>
+      <header>action</header>
+      <div id="content"><p><a href="keywords.html">Keyword</a>: <code>action</code>, <code>returns</code></p>
+
+<p>A type of <a href="declaration.html">declaration</a>.</p>
+
+<p>Actions have a declaration and an implementation. These may be separated -- for example by declaring the action in an <a href="isolate.html">isolate</a>'s interface and providing the action's implementation in the isolate's <code>implementation</code> block -- or the action's declaration may be followed in-line by an equals sign (<code>=</code>) and an implementation block.</p>
+
+<p>Actions are similar to procedures in a typical imperative programming language, containing <a href="statement.html">statements</a> which in turn evaluate (and possibly statically verify) <a href="expression.html">expressions</a> and modify <a href="state-variable.html">state variable</a>.</p>
+
+<p>Actions are semantically synchronous. This means that:</p>
+
+<ul>
+<li>All actions occur in reaction to input from the environment, and</li>
+<li>All actions are isolated, that is, they appear to occur instantaneously, with no interruption.</li>
+</ul>
+
+<p>An action may return a value by listing a <code>returns (&lt;symbol&gt;:&lt;type&gt;)</code> in its signature. The named return value must then be assigned within the action.</p>
+
+<p>An action is logically interpreted as a <a href="transition-relation.html">transition relation</a> over <a href="state-variable.html">state variables</a>.</p>
+
+<h2 id="examples">Examples:</h2>
+
+<h3 id="example-assigning-a-state-variable">Example: assigning a state variable</h3>
+
+<pre><code class="plaintext lang-plaintext language-plaintext">action connect(x:node, y:node) = {
+    link(x,y) := true
+}</code></pre>
+
+<h3 id="example-separate-implementation">Example: separate implementation</h3>
+
+<pre><code class="plaintext lang-plaintext language-plaintext">isolate network = {
+    type node
+    relation link(X:node, Y:node)
+
+    specification {
+       action connect(x:node, y:node)
+    }
+
+    implementation {
+        implement connect {
+            link(x,y) := true
+        }
+    }
+}</code></pre>
+
+<h3 id="example-returning-a-value">Example: returning a value</h3>
+
+<pre><code class="plaintext lang-plaintext language-plaintext">type t
+interpret t -> int
+
+action incr(x:t) returns (out:t) = {
+   out := x + 1
+}</code></pre>
+</div>
+      <hr />
+      <h2 id="backlinks">Backlinks</h2>
+      <div class="backlinks">
+
+<ul>
+<li><a href="assignment.html">assignment</a></li>
+<li><a href="assume-guarantee-reasoning.html">assume-guarantee reasoning</a></li>
+<li><a href="assumption.html">assumption</a></li>
+<li><a href="attribute.html">attribute</a></li>
+<li><a href="call.html">call</a></li>
+<li><a href="declaration.html">declaration</a></li>
+<li><a href="declared-variable.html">declared variable</a></li>
+<li><a href="definition.html">definition</a></li>
+<li><a href="environment.html">environment</a></li>
+<li><a href="export.html">export</a></li>
+<li><a href="function.html">function</a></li>
+<li><a href="guarantee.html">guarantee</a></li>
+<li><a href="import.html">import</a></li>
+<li><a href="initializer.html">initializer</a></li>
+<li><a href="invariant.html">invariant</a></li>
+<li><a href="keywords.html">keywords</a></li>
+<li><a href="local-variable.html">local variable</a></li>
+<li><a href="logical-variable.html">logical variable</a></li>
+<li><a href="mixin.html">mixin</a></li>
+<li><a href="module-instantiation.html">module instantiation</a></li>
+<li><a href="relation.html">relation</a></li>
+<li><a href="state-variable.html">state variable</a></li>
+<li><a href="statement.html">statement</a></li>
+<li><a href="thunk.html">thunk</a></li>
+<li><a href="transition-relation.html">transition relation</a></li>
+<li><a href="verification-condition.html">verification condition</a></li>
+<li><a href="weakest-liberal-precondition.html">weakest liberal precondition</a></li>
+</ul>
+
+</div>
+
+    </article>
+  </div>
+</body>
+
+</html>
