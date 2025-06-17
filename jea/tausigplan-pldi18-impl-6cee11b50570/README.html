@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>PLDI 2018 Artifact</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <style type="text/css">
+
+
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+nav,
+section,
+summary {
+display: block;
+}
+
+audio,
+canvas,
+video {
+display: inline-block;
+}
+
+audio:not([controls]) {
+display: none;
+height: 0;
+}
+
+[hidden],
+template {
+display: none;
+}
+
+
+html {
+font-family: sans-serif; 
+-ms-text-size-adjust: 100%; 
+-webkit-text-size-adjust: 100%; 
+}
+
+body {
+margin: 0;
+}
+
+
+a {
+background: transparent;
+}
+
+a:focus {
+outline: thin dotted;
+}
+
+a:active,
+a:hover {
+outline: 0;
+}
+
+
+h1 {
+font-size: 2em;
+margin: 0.67em 0;
+}
+
+abbr[title] {
+border-bottom: 1px dotted;
+}
+
+b,
+strong {
+font-weight: bold;
+}
+
+dfn {
+font-style: italic;
+}
+
+hr {
+-moz-box-sizing: content-box;
+box-sizing: content-box;
+height: 0;
+}
+
+mark {
+background: #ff0;
+color: #000;
+}
+
+code,
+kbd,
+pre,
+samp {
+font-family: monospace, serif;
+font-size: 1em;
+}
+
+pre {
+white-space: pre-wrap;
+}
+
+q {
+quotes: "\201C" "\201D" "\2018" "\2019";
+}
+
+small {
+font-size: 80%;
+}
+
+sub,
+sup {
+font-size: 75%;
+line-height: 0;
+position: relative;
+vertical-align: baseline;
+}
+sup {
+top: -0.5em;
+}
+sub {
+bottom: -0.25em;
+}
+
+
+img {
+border: 0;
+}
+
+svg:not(:root) {
+overflow: hidden;
+}
+
+
+figure {
+margin: 0;
+}
+
+
+fieldset {
+border: 1px solid #c0c0c0;
+margin: 0 2px;
+padding: 0.35em 0.625em 0.75em;
+}
+
+legend {
+border: 0; 
+padding: 0; 
+}
+
+button,
+input,
+select,
+textarea {
+font-family: inherit; 
+font-size: 100%; 
+margin: 0; 
+}
+
+button,
+input {
+line-height: normal;
+}
+
+button,
+select {
+text-transform: none;
+}
+
+button,
+html input[type="button"], 
+input[type="reset"],
+input[type="submit"] {
+-webkit-appearance: button; 
+cursor: pointer; 
+}
+
+button[disabled],
+html input[disabled] {
+cursor: default;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+box-sizing: border-box; 
+padding: 0; 
+}
+
+input[type="search"] {
+-webkit-appearance: textfield; 
+-moz-box-sizing: content-box;
+-webkit-box-sizing: content-box; 
+box-sizing: content-box;
+}
+
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+-webkit-appearance: none;
+}
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+border: 0;
+padding: 0;
+}
+
+textarea {
+overflow: auto; 
+vertical-align: top; 
+}
+
+
+table {
+border-collapse: collapse;
+border-spacing: 0;
+}
+.go-top {
+position: fixed;
+bottom: 2em;
+right: 2em;
+text-decoration: none;
+background-color: #E0E0E0;
+font-size: 12px;
+padding: 1em;
+display: inline;
+}
+
+html,body{ margin: auto;
+padding-right: 1em;
+padding-left: 1em;
+max-width: 60em; color:black;}*:not('#mkdbuttons'){margin:0;padding:0}body{font:13.34px helvetica,arial,freesans,clean,sans-serif;-webkit-font-smoothing:subpixel-antialiased;line-height:1.4;padding:3px;background:#fff;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px}p{margin:1em 0}a{color:#4183c4;text-decoration:none}body{background-color:#fff;padding:30px;margin:15px;font-size:14px;line-height:1.6}body>*:first-child{margin-top:0!important}body>*:last-child{margin-bottom:0!important}@media screen{body{box-shadow:0 0 0 1px #cacaca,0 0 0 4px #eee}}h1,h2,h3,h4,h5,h6{margin:20px 0 10px;padding:0;font-weight:bold;-webkit-font-smoothing:subpixel-antialiased;cursor:text}h1{font-size:28px;color:#000}h2{font-size:24px;border-bottom:1px solid #ccc;color:#000}h3{font-size:18px;color:#333}h4{font-size:16px;color:#333}h5{font-size:14px;color:#333}h6{color:#777;font-size:14px}p,blockquote,table,pre{margin:15px 0}ul{padding-left:30px}ol{padding-left:30px}ol li ul:first-of-type{margin-top:0}hr{background:transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC) repeat-x 0 0;border:0 none;color:#ccc;height:4px;padding:0}body>h2:first-child{margin-top:0;padding-top:0}body>h1:first-child{margin-top:0;padding-top:0}body>h1:first-child+h2{margin-top:0;padding-top:0}body>h3:first-child,body>h4:first-child,body>h5:first-child,body>h6:first-child{margin-top:0;padding-top:0}a:first-child h1,a:first-child h2,a:first-child h3,a:first-child h4,a:first-child h5,a:first-child h6{margin-top:0;padding-top:0}h1+p,h2+p,h3+p,h4+p,h5+p,h6+p,ul li>:first-child,ol li>:first-child{margin-top:0}dl{padding:0}dl dt{font-size:14px;font-weight:bold;font-style:italic;padding:0;margin:15px 0 5px}dl dt:first-child{padding:0}dl dt>:first-child{margin-top:0}dl dt>:last-child{margin-bottom:0}dl dd{margin:0 0 15px;padding:0 15px}dl dd>:first-child{margin-top:0}dl dd>:last-child{margin-bottom:0}blockquote{border-left:4px solid #DDD;padding:0 15px;color:#777}blockquote>:first-child{margin-top:0}blockquote>:last-child{margin-bottom:0}table{border-collapse:collapse;border-spacing:0;font-size:100%;font:inherit}table th{font-weight:bold;border:1px solid #ccc;padding:6px 13px}table td{border:1px solid #ccc;padding:6px 13px}table tr{border-top:1px solid #ccc;background-color:#fff}table tr:nth-child(2n){background-color:#f8f8f8}img{max-width:100%}code,tt{margin:0 2px;padding:0 5px;white-space:nowrap;border:1px solid #eaeaea;background-color:#f8f8f8;border-radius:3px;font-family:Consolas,'Liberation Mono',Courier,monospace;font-size:12px;color:#333}pre>code{margin:0;padding:0;white-space:pre;border:0;background:transparent}.highlight pre{background-color:#f8f8f8;border:1px solid #ccc;font-size:13px;line-height:19px;overflow:auto;padding:6px 10px;border-radius:3px}pre{background-color:#f8f8f8;border:1px solid #ccc;font-size:13px;line-height:19px;overflow:auto;padding:6px 10px;border-radius:3px}pre code,pre tt{background-color:transparent;border:0}.poetry pre{font-family:Georgia,Garamond,serif!important;font-style:italic;font-size:110%!important;line-height:1.6em;display:block;margin-left:1em}.poetry pre code{font-family:Georgia,Garamond,serif!important;word-break:break-all;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;white-space:pre-wrap}sup,sub,a.footnote{font-size:1.4ex;height:0;line-height:1;vertical-align:super;position:relative}sub{vertical-align:sub;top:-1px}@media print{body{background:#fff}img,pre,blockquote,table,figure{page-break-inside:avoid}body{background:#fff;border:0}code{background-color:#fff;color:#333!important;padding:0 .2em;border:1px solid #dedede}pre{background:#fff}pre code{background-color:white!important;overflow:visible}}@media screen{body.inverted{color:#eee!important;border-color:#555;box-shadow:none}.inverted body,.inverted hr .inverted p,.inverted td,.inverted li,.inverted h1,.inverted h2,.inverted h3,.inverted h4,.inverted h5,.inverted h6,.inverted th,.inverted .math,.inverted caption,.inverted dd,.inverted dt,.inverted blockquote{color:#eee!important;border-color:#555;box-shadow:none}.inverted td,.inverted th{background:#333}.inverted h2{border-color:#555}.inverted hr{border-color:#777;border-width:1px!important}::selection{background:rgba(157,193,200,0.5)}h1::selection{background-color:rgba(45,156,208,0.3)}h2::selection{background-color:rgba(90,182,224,0.3)}h3::selection,h4::selection,h5::selection,h6::selection,li::selection,ol::selection{background-color:rgba(133,201,232,0.3)}code::selection{background-color:rgba(0,0,0,0.7);color:#eee}code span::selection{background-color:rgba(0,0,0,0.7)!important;color:#eee!important}a::selection{background-color:rgba(255,230,102,0.2)}.inverted a::selection{background-color:rgba(255,230,102,0.6)}td::selection,th::selection,caption::selection{background-color:rgba(180,237,95,0.5)}.inverted{background:#0b2531;background:#252a2a}.inverted body{background:#252a2a}.inverted a{color:#acd1d5}}.highlight .c{color:#998;font-style:italic}.highlight .err{color:#a61717;background-color:#e3d2d2}.highlight .k,.highlight .o{font-weight:bold}.highlight .cm{color:#998;font-style:italic}.highlight .cp{color:#999;font-weight:bold}.highlight .c1{color:#998;font-style:italic}.highlight .cs{color:#999;font-weight:bold;font-style:italic}.highlight .gd{color:#000;background-color:#fdd}.highlight .gd .x{color:#000;background-color:#faa}.highlight .ge{font-style:italic}.highlight .gr{color:#a00}.highlight .gh{color:#999}.highlight .gi{color:#000;background-color:#dfd}.highlight .gi .x{color:#000;background-color:#afa}.highlight .go{color:#888}.highlight .gp{color:#555}.highlight .gs{font-weight:bold}.highlight .gu{color:#800080;font-weight:bold}.highlight .gt{color:#a00}.highlight .kc,.highlight .kd,.highlight .kn,.highlight .kp,.highlight .kr{font-weight:bold}.highlight .kt{color:#458;font-weight:bold}.highlight .m{color:#099}.highlight .s{color:#d14}.highlight .na{color:#008080}.highlight .nb{color:#0086b3}.highlight .nc{color:#458;font-weight:bold}.highlight .no{color:#008080}.highlight .ni{color:#800080}.highlight .ne,.highlight .nf{color:#900;font-weight:bold}.highlight .nn{color:#555}.highlight .nt{color:#000080}.highlight .nv{color:#008080}.highlight .ow{font-weight:bold}.highlight .w{color:#bbb}.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:#099}.highlight .sb,.highlight .sc,.highlight .sd,.highlight .s2,.highlight .se,.highlight .sh,.highlight .si,.highlight .sx{color:#d14}.highlight .sr{color:#009926}.highlight .s1{color:#d14}.highlight .ss{color:#990073}.highlight .bp{color:#999}.highlight .vc,.highlight .vg,.highlight .vi{color:#008080}.highlight .il{color:#099}.highlight .gc{color:#999;background-color:#eaf2f5}.type-csharp .highlight .k,.type-csharp .highlight .kt{color:#00F}.type-csharp .highlight .nf{color:#000;font-weight:normal}.type-csharp .highlight .nc{color:#2b91af}.type-csharp .highlight .nn{color:#000}.type-csharp .highlight .s,.type-csharp .highlight .sc{color:#a31515}
+</style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">PLDI 2018 Artifact</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#directory-structure">Directory structure</a></li>
+<li><a href="#verifying-protocols-with-ivy">Verifying protocols with Ivy</a>
+<ul>
+<li><a href="#raft">Raft</a></li>
+<li><a href="#multi-paxos">Multi-Paxos</a></li>
+</ul></li>
+<li><a href="#extracting-verified-c-code">Extracting verified C++ code</a>
+<ul>
+<li><a href="#raft-1">Raft</a></li>
+<li><a href="#multi-paxos-1">Multi-Paxos</a></li>
+</ul></li>
+<li><a href="#evaluation">Evaluation</a>
+<ul>
+<li><a href="#building-the-server">Building the server</a></li>
+<li><a href="#running-a-cluster-of-servers">Running a cluster of servers</a></li>
+<li><a href="#runnign-an-interactive-client">Runnign an interactive client</a></li>
+<li><a href="#running-a-benchmark-client">Running a benchmark client</a></li>
+</ul></li>
+<li><a href="#evaluation-on-amazon-ec2">Evaluation on Amazon EC2</a>
+<ul>
+<li><a href="#ec2-configuration">EC2 Configuration</a></li>
+<li><a href="#ec2-experiments">EC2 experiments</a></li>
+</ul></li>
+</ul>
+</nav>
+<p>This virtual machine contains the artifact for PLDI 2018 paper: “Modularity for Decidability: Implementing and Semi-Automatically Verifying Distributed Systems”.</p>
+<p>The virtual machine was created using VirtualBox version 5.2.6.</p>
+<p>The VM should be logged on with the user name <code>ivyuser</code> and password <code>ivy</code>.</p>
+<p>Most of the evaluation of the artifact is done from the terminal, which can be started by clicking on the terminal icon in the launcher (top left of the screen). To read (and modify) source files, any text editor can be used. The VM comes equipped with an Emacs mode for Ivy code (Emacs can be launched from the terminal or the launcher).</p>
+<p>The rest of this file explains the artifact and how to exercise it.</p>
+<h1 id="directory-structure">Directory structure</h1>
+<p><code>~/z3/</code> contains a clone of Z3 from its master branch on github.</p>
+<p><code>~/ivy/</code> contains a clone of Ivy from its master branch on github.</p>
+<p><code>~/pldi18-artifact/</code> contains the artifact</p>
+<p><code>~/pldi18-artifact/examples/raft/</code> contains Ivy source files for the verified Raft protocol implementation.</p>
+<p><code>~/pldi18-artifact/examples/multi-paxos/</code> contains Ivy source files for the verified Multi-Paxos protocol implementation.</p>
+<p><code>~/pldi18-artifact/evaluation/</code> contains unverified C++ and Python code that uses one of the verified protocols to create a distributed fault tolerant key-value store, as well as a client that exercises the server code. This directory also contains various scripts used for performance evaluation and explained later.</p>
+<p><code>~/pldi18-artifact/ec2/</code> contains scripts that enable performance evaluation of the key-value store on Amazon AWS.</p>
+<h1 id="verifying-protocols-with-ivy">Verifying protocols with Ivy</h1>
+<h2 id="raft">Raft</h2>
+<p>Ivy files contain both code and proofs (e.g., pre and post conditions,inductive invariants), and are checked with the <code>ivy_check</code> command, which internally uses Z3 to discharge verification conditions. The Raft protocol implementation (and proof) are contained in the <code>raft.ivy</code> file. It can be verified with ith <code>ivy_check</code> by running the following commands in a terminal:</p>
+<pre><code>ivyuser@ivy-vm:~$ cd ~/pldi18-artifact/examples/raft/
+ivyuser@ivy-vm:~/pldi18-artifact/examples/raft$ time ivy_check raft.ivy # should take several minutes</code></pre>
+<p>You should expect this to take a few minutes (2-3 on my laptop). It will also print messages detailing the various verification conditions being checked (the verification is split into several isolates, which correspond to modules from the paper, and each isolate results in multiple verification conditions). Once <code>ivy_check</code> terminates and prints <code>OK</code>, you know that the file is verified.</p>
+<p>You may wish to edit <code>raft.ivy</code>, for example by commenting out one of the conjectures that make up the inductive invariant, and see that <code>ivy_check</code> fails. If you run <code>ivy_check diagnose=true raft.ivy</code>, you can also obtain a graphical interface that allows you to examine a counterexample to induction (note that this interface is not part of the contribution of the PLDI 2018 paper).</p>
+<h2 id="multi-paxos">Multi-Paxos</h2>
+<p>The source code of the Multi-Paxos verified protocol is split into two files: <code>multi_paxos_protocol.ivy</code> contains the abstract protocol, and <code>multi_paxos_system.ivy</code> contains the concrete implementation (and uses the abstract protocol as ghost code for the correctness proof). To check the Multi-Paxos implementation with <code>ivy_check</code>, run the following commands in a terminal (this also checks the abstract protocol, which is used by the implementation):</p>
+<pre><code>ivyuser@ivy-vm:~$ cd ~/pldi18-artifact/examples/multi-paxos/
+ivyuser@ivy-vm:~/pldi18-artifact/examples/multi-paxos$ time ivy_check multi_paxos_system.ivy # should take several minutes
+...</code></pre>
+<p>As before, the above commands will print details about the verification conditions being checked. <code>ivy_check</code> should take a few minutes (7 on my laptop). As before, once <code>ivy_check</code> prints <code>OK</code> you know that the protocol is verified. You can also edit the Ivy files to break the verification, and run <code>ivy_check</code> to see it report the errors, or run <code>ivy_check diagnose=true</code> to graphically examine counterexamples to induction.</p>
+<h1 id="extracting-verified-c-code">Extracting verified C++ code</h1>
+<p>Ivy files can be compiled to C++, as explained in the paper. This is done using the <code>ivy_to_cpp</code> command.</p>
+<h2 id="raft-1">Raft</h2>
+<p>To extract a verified implementation of the Raft protocol, run the following commands:</p>
+<pre><code>ivyuser@ivy-vm:~$ cd pldi18-artifact/examples/raft/
+ivyuser@ivy-vm:~/pldi18-artifact/examples/raft$ ivy_to_cpp isolate=test target=class raft.ivy</code></pre>
+<p>This should take a few seconds, and generate the files <code>raft.cpp</code> and <code>raft.h</code>, which contain a class <code>raft</code> with a verified implementation of the Raft protocol.</p>
+<h2 id="multi-paxos-1">Multi-Paxos</h2>
+<p>To extract a verified implementation of the Multi-Paxos protocol, run the following commands:</p>
+<pre><code>ivyuser@ivy-vm:~$ cd pldi18-artifact/examples/multi-paxos/
+ivyuser@ivy-vm:~/pldi18-artifact/examples/multi-paxos$ ivy_to_cpp isolate=iso_impl target=class multi_paxos_system.ivy</code></pre>
+<p>This should take a few seconds, and generate the files <code>multi_paxos_system.cpp</code> and <code>multi_paxos_system.h</code>, which contain a class <code>multi_paxos_system</code> with a verified implementation of the Multi-Paxos protocol.</p>
+<h1 id="evaluation">Evaluation</h1>
+<p>The process described above results in a a C++ class that implements either Raft or Multi-Paxos. For evaluation purposes, we created a server that can use any of these classes to implement a fault tolerant distributed key-value store. This section explains how to build this server and exercise it locally using a Python client.</p>
+<h2 id="building-the-server">Building the server</h2>
+<p>To build the server using the verified Raft protocol, run:</p>
+<pre><code>ivyuser@ivy-vm:~$ cd ~/pldi18-artifact/evaluation/
+ivyuser@ivy-vm:~/pldi18-artifact/evaluation$ make raft</code></pre>
+<p>To build it using the verified Multi-Paxos protocol instead, run:</p>
+<pre><code>ivyuser@ivy-vm:~/pldi18-artifact/evaluation$ make multipaxos</code></pre>
+<p>Boh the <code>make raft</code> command and the <code>make multipaxos</code> command create a binary file called <code>build/server</code>. This allows the rest of the evaluation (and the scripts it uses) to be uniform, since it simply invokes <code>build/server</code>. Thus, the rest of the evaluation should be executed twice: once after running <code>make raft</code> to evaluate a key-value store that uses the verified Raft protocol, and once after running <code>make multipaxos</code> to verify a key-value store that uses the verified Multi-Paxos protocol.</p>
+<p>In the rest of this section, all paths are relative to <code>~/pldi18-artifact/evaluation</code>.</p>
+<h2 id="running-a-cluster-of-servers">Running a cluster of servers</h2>
+<p>To run the distributed system locally, first build <code>./build/server</code> using either <code>make raft</code> or <code>make multipaxos</code> as described above. Then, start the cluster of servers by running several instances of <code>./build/server</code> with appropriate command line arguments. For your convenience, we have provided a script, <code>./scripts/start-tmux.sh</code>, that will start a <code>tmux</code> session with multiple windows: one window for each node running a server, and one extra window for interacting with the cluster as a client (as explained next). The <code>./scripts/start-tmux.sh</code> script takes a command line argument with the number of servers in the cluster (with a default of 3).</p>
+<p>If you want to set up the cluster manually, you can run several instances the <code>./build/server</code> executable as in the following example (a complete list of command line arguments is given by <code>./build/server --help</code>):</p>
+<pre><code>ivyuser@ivy-vm:~/pldi18-artifact/evaluation$ ./build/server --log --node-id 0 --client-port 8000 --cluster localhost:4990,localhost:4991,localhost:4992
+ivyuser@ivy-vm:~/pldi18-artifact/evaluation$ ./build/server --log --node-id 1 --client-port 8001 --cluster localhost:4990,localhost:4991,localhost:4992
+ivyuser@ivy-vm:~/pldi18-artifact/evaluation$ ./build/server --log --node-id 2 --client-port 8002 --cluster localhost:4990,localhost:4991,localhost:4992</code></pre>
+<p>These are exactly the commands run by <code>./scripts/start-tmux.sh</code>. Each server process listens for client connections on the given client port, and talks to the servers at the given cluster addresses and ports. The <code>--node-id</code> option tells a server which element of cluster list contains its own address and port. The command <code>./scripts/start-tmux.sh N</code> starts <code>N</code> servers, where server <code>i</code> will use port <code>8000 + i</code> to communicate with clients, and port <code>4990 + i</code> to communicate with the other servers.</p>
+<p>If you start a tmux session with <code>./scripts/start-tmux.sh</code>, you should make sure to properly close it before attempting to start a new one. To do this, hit <code>CTRL+D</code> in the client window to close the shell, and then <code>CTRL+C</code> once per server window. Continue until the entire tmux session is terminated. This will be indicated by an <code>[exited]</code> message, back in your original shell where you ran <code>./scripts/start-tmux.sh</code> (which will now become visible again).</p>
+<h2 id="runnign-an-interactive-client">Runnign an interactive client</h2>
+<p>After you launch a cluster of servers, you can interact with the cluster by launching a client and sending <code>put</code> and <code>get</code> commands to the key-value store. For example, you can make simple queries by running <code>python</code> or <code>ipython</code> in the <code>bench/</code> directory and using the provided Python API (note that keys and values are expected to be strings):</p>
+<pre><code>from vard import Client
+
+cluster = [(&quot;localhost&quot;, 8000), (&quot;localhost&quot;, 8001), (&quot;localhost&quot;, 8002)]
+
+leader_host, leader_port = Client.find_leader(cluster)
+c = Client(leader_host, leader_port)
+
+c.put(&quot;x&quot;, &quot;7&quot;)
+c.put(&quot;y&quot;, &quot;10&quot;)
+c.get(&quot;x&quot;) # returns &quot;7&quot;
+c.get(&quot;y&quot;) # returns &quot;10&quot;
+c.get(&quot;z&quot;) # returns None</code></pre>
+<p>Make sure to change the <code>cluster</code> variable above to match with the server cluster.</p>
+<p>If you use IPython, you can use <code>!kill &lt;pid&gt;</code> to kill some of the servers, in order to exercise the fault tolerance of the system. Each server window starts with a line that includes its process id. For example, you can try the following:</p>
+<pre><code>ivyuser@ivy-vm:~/pldi18-artifact/evaluation$ ./scripts/start-tmux.sh 5
+# Inside the client window:
+ivyuser@ivy-vm:~/pldi18-artifact/evaluation$ cd bench/
+ivyuser@ivy-vm:~/pldi18-artifact/evaluation/bench$ ipython
+...
+In [1]: from vard import Client
+In [2]: cluster = [(&quot;localhost&quot;, 8000), (&quot;localhost&quot;, 8001), (&quot;localhost&quot;, 8002), (&quot;localhost&quot;, 8003), (&quot;localhost&quot;, 8004)]
+In [3]: leader_host, leader_port = Client.find_leader(cluster)
+In [4]: c = Client(leader_host, leader_port)
+In [5]: c.put(&quot;x&quot;, &quot;7&quot;)
+In [6]: c.put(&quot;y&quot;, &quot;10&quot;)
+In [7]: c.get(&quot;x&quot;) # returns &quot;7&quot;
+In [8]: c.get(&quot;y&quot;) # returns &quot;10&quot;
+In [9]: c.get(&quot;z&quot;) # returns None
+In [10]: !kill 6757 # change 6757 to a process id from the window on the right
+In [11]: c.get(&quot;x&quot;) # still returns &#39;7&#39;
+In [12]: !kill 6762 # change 6762 to a process id from the window on the right
+In [13]: c.get(&quot;x&quot;) # still returns &#39;7&#39;
+In [14]: !kill 6748 # change 6748 to a process id from the window on the right
+In [15]: c.get(&quot;x&quot;) # hangs, since too many servers have failed (no active quorum)
+^C</code></pre>
+<p>When killing servers, you may note that if you kill the leader, the next client request will result in an <code>ReceiveError</code> exception. To recover, simply create a new client session by repeating the commands:</p>
+<pre><code>leader_host, leader_port = Client.find_leader(cluster)
+c = Client(leader_host, leader_port)</code></pre>
+<p>The <code>Client</code> object represents a connection to a specific leader (the client communicates only with the leader, and the leader uses Raft or Multi-Paxos to communicate requests to other nodes and reach agreement). In a realistic application, this sort of communication failure would be caught and handled by automatically running the <code>find_leader</code> method again, and establishing a new client connection.</p>
+<p>Note that if you try to find a new leader while the leader-election protocol has not terminated, you will receive an error. Simply try again a few seconds later. Also note that restarting a failed server is not supported.</p>
+<h2 id="running-a-benchmark-client">Running a benchmark client</h2>
+<p>You can also perform a local benchmarking run using the script <code>./bench/bench.py</code> (note that you must start the servers before running this script). If you first ran some simple queries, either close the existing python session or open a new terminal and run the following command. It may also be interesting to interact with the cluster manually via the python API during or after benchmarks are running.</p>
+<p>If you started a cluster of 3 nodes, you can start <code>./bench/bench.py</code> with the following arguments:</p>
+<pre><code>ivyuser@ivy-vm:~/pldi18-artifact/evaluation$ python ./bench/bench.py --cluster localhost:8000,localhost:8001,localhost:8002 --requests 10 --threads 1 --keys 10 --put-percentage 50</code></pre>
+<p>The <code>--cluster</code> option specifies the addresses and <em>client</em> ports of the servers in the cluster. The rest of the options specify a benchmark consisting of 10 randomly generated requests, running at most one request in parallel, over a key space with 10 keys, where on average 50% of requests are puts. You may wish to play with the number of requests, threads, keys, and precentage of put requests (given by command line arguments). Our paper reports measurements taken with 500 keys, 50 threads, and 10000 requests.</p>
+<p>Each run of <code>./bench/bench.py</code> reports the average latency, as well as a detailed log of all requests. This allows to examine whether the latency increases with the size of the log (it should not). You can also try to run <code>./bench/bench.py</code> several times, possibly killing nodes between runs to exercise fault tolerance. You can also kill nodes during a sufficiently long <code>./bench/bench.py</code> run, but notice that if you kill the leader during a run, it would not recover. As explained above, a real application would be able to recover by starting a new session. To simulate this, you can kill the leader between multiple <code>./bench/bench.py</code> runs.</p>
+<p>Finally, note that the Multi-Paxos implementation has a known issues: changing leader after a sufficiently long benchmark causes nodes to try to send messages that do not fit in a UDP frame, resulting in those nodes being terminated.</p>
+<h1 id="evaluation-on-amazon-ec2">Evaluation on Amazon EC2</h1>
+<p>If you have access to an Amazon AWS account, you can reproduce the paper’s evaluation by running our key-value store, as well as <code>vard</code> and <code>etcd</code>, on EC2. Spinning up on-demand instances, cleaning them up, and running the experiments is all automated, but some configuration is necessary.</p>
+<h2 id="ec2-configuration">EC2 Configuration</h2>
+<p>You’ll need to do a couple of things in the AWS EC2 console:</p>
+<ul>
+<li>Ensure that port 22 (SSH) is open in your default security group (you can do this from “Security Groups” under “Network &amp; Security”)</li>
+<li>Create a key pair called “bench” (you can do this from “Key Pairs” under “Network &amp; Security”). Download the resulting private key and put it in the VM as <code>/home/ivyuser/.ssh/bench.pem</code> and run <code>chmod   600 /home/ivyuser/.ssh/bench.pem</code>.</li>
+</ul>
+<p>Once you’ve done this, you can configure the VM to access your EC2 account by running (in the VM):</p>
+<pre><code>aws configure</code></pre>
+<p>and entering your Access Key ID, Secret Access Key, and default region as appropriate (if you don’t have a region preference, enter <code>us-west-2</code>).</p>
+<h2 id="ec2-experiments">EC2 experiments</h2>
+<p>The scripts to run on EC2 are in <code>~/pldi18-artifact/ec2/</code>. The main entry points are <code>experiment.py</code> and <code>use_cluster.py</code>. In what follows, we assume that you have run <code>ivy_to_cpp</code> as explained above, so the C++ verified implementations are already created. To run on EC2, <code>experiment.py</code> copies C++ source files to EC2 instances and compiles them there. Note that the EC2 instances themselves do not have Ivy (or Z3) installed, since they are only used to run the resulting application.</p>
+<p>To run experiments, you can start a cluster by running <code>experiment.py &lt;yaml-script&gt; &lt;experiment-label&gt;</code>. For example, to start the Raft-based key-value store experiment from the paper, run:</p>
+<pre><code>ivyuser@ivy-vm:~/pldi18-artifact/ec2$ python2 experiment.py -f experiments/ivyd-raft.yml raft-aec --no-experiment --no-cleanup --dump-instance-yaml raft-instances.yml</code></pre>
+<p>This will spin up 4 <code>m4.xlarge</code> EC2 instances, provision them as necessary, and start the Raft-based key-value store on three of them. You can expect this to take 5-10 minutes.</p>
+<p>Then, you can use the cluster to perform benchmarks by running</p>
+<pre><code>ivyuser@ivy-vm:~/pldi18-artifact/ec2$ python2 use_cluster.py --config experiments/ivyd-raft.yml --config experiments/closed-loop.yml --instance raft-instances.yml --time 10 --iters 5 --use-processes --threads 1 --threads 2 --threads 4 --threads 8 --threads 16 --threads 32 --threads 64</code></pre>
+<p>This will run a benchmarking script from the fourth server to test the performance of the cluster under various loads. Each test runs the benchmark script for 10 seconds with a certain number of client processes and measures throughput and latency. Each 10-second experiment is repeated 5 times (specified by <code>--iters 5</code>). The entire benchmark (5 iterations of ~10 seconds each for each number of threads) should take about 10 minutes.</p>
+<p>When the benchmark script finishes, you can terminate all the nodes by running</p>
+<pre><code>ivyuser@ivy-vm:~/pldi18-artifact/ec2$ python2 use_cluster.py --config experiments/ivyd-raft.yml --config experiments/closed-loop.yml --instance vard-instances.yml --terminate</code></pre>
+<p>The logs from every process (the provisioning script, the servers, and the client) are written to a new directory in <code>experiment_logs</code> called <code>raft-aec-&lt;timestamp&gt;</code>. You can also examine these files while the experiment is running. The benchmark script’s output will be in the <code>experiment-client-&lt;timestamp&gt;.log</code> files in that directory. The end of the file should contain the total time, throughput, average latency. The file also contains a list of individual latencies for every request.</p>
+<p>Each <code>.yml</code> file in the <code>experiments</code> directory corresponds to an experiment from the paper:</p>
+<ul>
+<li><code>ivyd-raft.yml</code>: The Raft-based key-value store</li>
+<li><code>ivyd-multipaxos.yml</code>: The Multipaxos-based key-value store</li>
+<li><code>etcd.yml</code>: The etcd key-value store</li>
+<li><code>vard.yml</code>: The <code>vard</code> key-value store</li>
+</ul>
+<p>The provisioning scripts for <code>vard</code> and <code>etcd</code> download sources from their respective repositories. All provision scripts download the benchmarking scripts from the <code>vard</code> repository, since we used the <code>vard</code> benchmarks.</p>
+<p>To try the other experiments, you can use the following commands:</p>
+<pre><code>python2 experiment.py -f experiments/ivyd-raft.yml raft-aec --no-experiment --no-cleanup --dump-instance-yaml raft-instances.yml
+python2 experiment.py -f experiments/ivyd-multipaxos.yml multipaxos-aec --no-experiment --no-cleanup --dump-instance-yaml multipaxos-instances.yml
+python2 experiment.py -f experiments/etcd.yml etcd-aec --no-experiment --no-cleanup --dump-instance-yaml etcd-instances.yml
+python2 experiment.py -f experiments/vard.yml vard-aec --no-experiment --no-cleanup --dump-instance-yaml vard-instances.yml</code></pre>
+<p>And then run the <code>use_cluster.py</code> commands as above.</p>
+<p>Note that the <code>vard</code> experiment takes significantly longer to set up the cluster since it installs Verdi on the EC2 instances. Also note that if you see messages like <code>SSH connection to ... refused; retrying</code>, you can wait patiently and let the script recover the connection and continue running. Should you become impatient and interrupt the script, the instances will also be terminated shortly. Overall, one should be patient with the <code>experiment.py</code> script, since it performs some operations that can take minutes to complete (e.g., cause a cloud instance to install software from a remote repository).</p>
+</body>
+</html>
