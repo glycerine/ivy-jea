@@ -1,3 +1,11 @@
+# jea notes: not intended for merging upstream
+
+This is a person collection of Ivy papers and
+Graydon's notes on Ivy that I assembled
+for reading on a recent plane flight.
+
+------------
+
 ## from
 ## https://raw.githubusercontent.com/DistCompiler/pgo-artifact/11f645e6f7c19146b2df8b428733b67b4cd1c4be/image/tausigplan-pldi18-impl-6cee11b50570/evaluation/README.md
 
