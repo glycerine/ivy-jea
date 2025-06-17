@@ -1,0 +1,41 @@
+#!/bin/bash
+
+## docker pull ghcr.io/glycerine/ub24:latest
+
+## once inside the container, you may need to do:
+## export DISPLAY=host.docker.internal:0
+## to get the X11 out.
+
+## passwords for ubuntu 24 docker container:
+## root / root
+## jaten / jaten (regular user, but has sudo)
+
+## setup of Xquartz on MacOS: to let
+## docker do X11, we need to use TCP not unix domain sockets.
+## $ defaults write org.xquartz.X11 nolisten_tcp 0
+## restart xquartz
+## $ xhost +  # turn off xauth to verify it all works at first.
+## env | DISPLAY # verify it is set. You should have 
+##               # DISPLAY set by Xquartz before
+##               # starting the docker container.
+
+## NB the docker container runs systemd.
+
+## NB you may have to change the name from ub24
+## to the name you save the conainer under. Or
+## it might be under ghcr.io/glycerine/ub24:latest
+
+
+docker run -it --rm \
+       --cap-add=NET_ADMIN \
+       --cap-add=NET_RAW  \
+       -v /dev/net/tun:/dev/net/tun \
+       -v /tmp/.X11-unix:/tmp/.X11-unix \
+       --cgroupns=private \
+       -v /sys/fs/cgroup:/sys/fs/cgroup \
+       --cap-add=SYS_ADMIN \
+       --privileged \
+       -e DISPLAY=host.docker.internal:0 \
+       ghcr.io/glycerine/ub24:latest /sbin/init
+
+
