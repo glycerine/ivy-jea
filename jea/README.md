@@ -1,6 +1,6 @@
 # jea notes: not intended for merging upstream
 
-This is a person collection of Ivy papers and
+This is a personal collection of Ivy papers and
 Graydon's notes on Ivy that I assembled
 for reading on a recent plane flight.
 
