@@ -407,10 +407,40 @@ ivy_ast.NamedBinder.cmpl = lambda self: ivy_logic.NamedBinder(
     self.args[0].compile()
 )
 
-ivy_ast.LabeledFormula.cmpl = lambda self: self.clone([None if self.label is None else self.label.clone([sortify_with_inference(x) for x in self.label.args]),
-                                                       self.formula.compile() 
-                                                       if isinstance(self.formula,ivy_ast.SchemaBody)
-                                                       else sortify_with_inference(self.formula)])
+# jea turn this lambda into function so we can inject 
+# debug prints and figure out the bug. Leave it in
+# debuggable form afterwards.
+# ivy_ast.LabeledFormula.cmpl = lambda self: self.clone([None if self.label is None else self.label.clone([sortify_with_inference(x) for x in self.label.args]),
+#                                                       self.formula.compile() 
+#                                                       if isinstance(self.formula,ivy_ast.SchemaBody)
+#                                                       else sortify_with_inference(self.formula)])
+
+
+def cmpl_step_by_step(self):
+    #print("\n--- DEBUG: Entering LabeledFormula._debug_cmpl ---")
+    #print(f"DEBUG: cmpl called on LabeledFormula instance: {self}")
+    #print(f"DEBUG: self.label is: {self.label}")
+    #print(f"DEBUG: self.formula is: {self.formula}")
+
+    if self.label is None:
+        label_arg = None
+        #print("DEBUG: label_arg is None! on self = ", self)
+    else:
+        label_arg = self.label.clone([sortify_with_inference(x) for x in self.label.args])
+
+    if isinstance(self.formula, ivy_ast.SchemaBody):
+        formula_arg = self.formula.compile()
+    else:
+        formula_arg = sortify_with_inference(self.formula)
+
+    args_for_clone = [label_arg, formula_arg]
+
+    #print(f"DEBUG: Arguments passed to self.clone(): {args_for_clone}")
+    #print("--- DEBUG: Exiting _debug_cmpl ---\n")
+    return self.clone(args_for_clone)
+
+ivy_ast.LabeledFormula.cmpl = cmpl_step_by_step
+
 
 ivy_ast.ProofDecl.cmpl = lambda self: self.clone([sortify_with_inference(self.args[0])]+self.args[1:]) 
 
