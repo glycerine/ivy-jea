@@ -362,21 +362,21 @@ conjecture [vote_msg_partial_func] vote_msg(N2, T, N1) & vote_msg(N3, T, N1) -> 
 conjecture [voting_quorum_vote_msg]
     leader(N1, T) -> forall N2. member(N2, voting_quorum(T)) -> vote_msg(N1, T, N2)
 conjecture [one_leader_per_term] leader(N1, T) & leader(N2, T) -> N1 = N2
-conjecture [RV_option_wf]
+conjecture [rv_option_wf]
     request_vote_msg(N, T, OLI, OLT) -> (is_none_index(OLI) <-> is_none_term(OLT))
-conjecture [RV_partial_func]
+conjecture [rv_partial_func]
     request_vote_msg(C, T, OLI1, OLT1) & request_vote_msg(C, T, OLI2, OLT2) ->
     OLI1 = OLI2 & OLT1 = OLT2
-conjecture [RV_term] request_vote_msg(C, T, OLI, OLT) -> current_term(C, T) | term_bigger(C, T)
-conjecture [RV_some_index_term_at]
+conjecture [rv_term] request_vote_msg(C, T, OLI, OLT) -> current_term(C, T) | term_bigger(C, T)
+conjecture [rv_some_index_term_at]
     request_vote_msg(C, T, OLI, OLT) & ~is_none_index(OLI) &
     ~term_bigger(C, T) & ~started(T) ->
     term_at(current_log(C), oi_index(OLI), ot_term(OLT))
-conjecture [RV_some_index_no_bigger]
+conjecture [rv_some_index_no_bigger]
     request_vote_msg(C, T, OLI, OLT) & ~is_none_index(OLI) &
     ~term_bigger(C, T) & ~started(T) & I > oi_index(OLI) ->
     ~index_used(current_log(C), I)
-conjecture [RV_none_index_not_used]
+conjecture [rv_none_index_not_used]
     request_vote_msg(C, T, OLI, OLT) & is_none_index(OLI) &
     ~term_bigger(C, T) & ~started(T) ->
     ~index_used(current_log(C), I)
@@ -385,22 +385,22 @@ conjecture [voters_left_term] voted(N, T2) & T1 < T2 -> term_bigger(N, T1)
 
 # properties of log replication
 
-conjecture [AE_option_wf]
+conjecture [ae_option_wf]
     append_msg(T, OPI, OPT, EI, ET, EV) -> (is_none_index(OPI) <-> is_none_term(OPT))
-conjecture [AE_none_means_init]
+conjecture [ae_none_means_init]
     append_msg(T, OPI, OPT, EI, ET, EV) & is_none_index(OPI) -> EI = 0
-conjecture [AE_some_succ]
+conjecture [ae_some_succ]
     append_msg(T, OPI, OPT, EI, ET, EV) & ~is_none_index(OPI) ->
     oi_index(OPI) < EI & (forall I. I < EI -> I <= oi_index(OPI))
 
-conjecture [AE_prev_term_log]
+conjecture [ae_prev_term_log]
     append_msg(T, PLI, PLT, EI, ET, EV) & ~is_none_index(PLI) ->
     term_at(term_log(T), oi_index(PLI), ot_term(PLT))
-conjecture [AE_term_log]
+conjecture [ae_term_log]
     append_msg(T, PLI, PLT, EI, ET, EV) ->
     term_at(term_log(T), EI, ET) &
     EV = value_at(term_log(T), EI)
-conjecture [AER_term_log] append_reply_msg(N, T, EI, ET) -> term_at(term_log(T), EI, ET)
+conjecture [aer_term_log] append_reply_msg(N, T, EI, ET) -> term_at(term_log(T), EI, ET)
 
 # valid logs
 
@@ -458,7 +458,7 @@ conjecture [index_used_term_log_started] index_used(term_log(T), I) -> started(T
 
 # properties of commit
 
-conjecture [CI_zero_until_commit] commit_index ~= 0 -> committed(commit_index, commit_value)
+conjecture [ci_zero_until_commit] commit_index ~= 0 -> committed(commit_index, commit_value)
 
 conjecture [any_committed_commit_index_committed]
     committed(I, V) -> committed(commit_index, commit_value)
