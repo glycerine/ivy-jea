@@ -2,6 +2,8 @@
 
 ## docker pull ghcr.io/glycerine/ub24:latest
 
+## MacOS (darwin) instructions follow (see below for linux).
+
 ## once inside the container, you may need to do:
 ## export DISPLAY=host.docker.internal:0
 ## to get the X11 out.
@@ -10,7 +12,14 @@
 ## root / root
 ## jaten / jaten (regular user, but has sudo)
 
-## setup of Xquartz on MacOS: to let
+## Xrdp is running, connect to it with your
+## Remote Desktop Protocol client on local port 5555.
+
+## For X11 via Xquartz instead (should prefer
+## RDP -- Microsoft Remote Desktop Protocol though,
+## as it looks much better...)
+##
+## To setup of Xquartz on MacOS: to let
 ## docker do X11, we need to use TCP not unix domain sockets.
 ## $ defaults write org.xquartz.X11 nolisten_tcp 0
 ## restart xquartz
@@ -34,8 +43,24 @@ docker run -it --rm \
        --cgroupns=private \
        -v /sys/fs/cgroup:/sys/fs/cgroup \
        --cap-add=SYS_ADMIN \
+       -p 127.0.0.1:5555:3389 \
        --privileged \
        -e DISPLAY=host.docker.internal:0 \
        ghcr.io/glycerine/ub24:latest /sbin/init
 
+
+
+## Linux version:
+## docker run -it --rm \
+##    --cap-add=NET_ADMIN \
+##	--cap-add=NET_RAW  \
+##	-v /dev/net/tun:/dev/net/tun \
+##	-v /tmp/.X11-unix:/tmp/.X11-unix \
+##	--cap-add=SYS_ADMIN \
+##	--privileged \
+##	-p 127.0.0.1:5555:3389 \
+##	-v /home/jaten:/home/jaten/host \
+##	-v /home/jaten/portable-emacs:/home/jaten/portable-emacs \
+##	-d \
+##      ghcr.io/glycerine/ub24:latest /sbin/init
 
