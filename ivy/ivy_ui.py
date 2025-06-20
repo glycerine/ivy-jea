@@ -53,6 +53,8 @@ class AnalysisGraphUI(object):
 
     @property 
     def mode(self):
+        if 'mode' not in self.radios:
+            return ''
         return self.radiobutton('mode')
 
     # This is called on startup of the ui. We initialize by creating an intitial
