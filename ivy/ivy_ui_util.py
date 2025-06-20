@@ -43,6 +43,8 @@ class WithMenuBar(object):
                     assert False,itype
 
     def radiobutton(self,name):
+        if name not in self.radios:
+            return StringVar(None,'')
         return self.radios[name]
 
 class FileBrowser(Frame):
