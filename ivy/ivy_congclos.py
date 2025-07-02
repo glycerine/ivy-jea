@@ -49,7 +49,9 @@ class CongClos(object):
         return self.get_rep_rec(node)
             
     def find(self,term):
-        return self.get_rep_node(term)[0]
+        print("debug ivy_congclos.py:52 find(term=",term,")")
+        print("debug ivy_congclos.py:53 self.get_rep_node(term) = ",self.get_rep_node(term))
+        return self.get_rep_node(term)[0] ## problem: [0] can return And, but And.rep does not exist.
 
     def find_by_name(self,name):
         """ Same as find, but looks up a constant by name, creating a
