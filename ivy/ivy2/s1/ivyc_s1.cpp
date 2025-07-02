@@ -536,11 +536,6 @@ void __ser<bool>(ivy_ser &res, const bool &inp) {
     res.set(inp);
 }
 
-template <>
-void __ser<std::vector<bool>::const_reference>(ivy_ser &res, const std::vector<bool>::const_reference &inp) {
-    bool thing = inp;
-    res.set(thing);
-} 
 
 template <>
 void __ser<__strlit>(ivy_ser &res, const __strlit &inp) {
@@ -4295,13 +4290,13 @@ int tag = rand() % 8;
 	    }
 
 	    template <>
-	    void  __randomize<ivyc_s1::str>( gen &g, const  z3::expr &v){
+	    void  __randomize<ivyc_s1::str>( gen &g, const  z3::expr &v, const std::string &sort_name){
 	        unsigned __sz = rand() % 4;
                 z3::expr val_expr = g.int_to_z3(g.sort("pos"),__sz);
                 z3::expr pred =  g.apply("str.end",v) == val_expr;
                 g.add_alit(pred);
 	        for (unsigned __i = 0; __i < __sz; ++__i)
-	            __randomize<int>(g,g.apply("str.value",v,g.int_to_z3(g.sort("pos"),__i)));
+	            __randomize<int>(g,g.apply("str.value",v,g.int_to_z3(g.sort("pos"),__i)),"char");
 	    }
 	    #endif
 
@@ -4385,13 +4380,13 @@ int tag = rand() % 8;
 	    }
 
 	    template <>
-	    void  __randomize<ivyc_s1::vector__pretty__token__>( gen &g, const  z3::expr &v){
+	    void  __randomize<ivyc_s1::vector__pretty__token__>( gen &g, const  z3::expr &v, const std::string &sort_name){
 	        unsigned __sz = rand() % 4;
                 z3::expr val_expr = g.int_to_z3(g.sort("vector[pretty.token].domain"),__sz);
                 z3::expr pred =  g.apply("vector[pretty.token].end",v) == val_expr;
                 g.add_alit(pred);
 	        for (unsigned __i = 0; __i < __sz; ++__i)
-	            __randomize<ivyc_s1::pretty__token>(g,g.apply("vector[pretty.token].value",v,g.int_to_z3(g.sort("vector[pretty.token].domain"),__i)));
+	            __randomize<ivyc_s1::pretty__token>(g,g.apply("vector[pretty.token].value",v,g.int_to_z3(g.sort("vector[pretty.token].domain"),__i)),"pretty.token");
 	    }
 	    #endif
 
@@ -4464,13 +4459,13 @@ int tag = rand() % 8;
 	    }
 
 	    template <>
-	    void  __randomize<ivyc_s1::vector__pretty__state__>( gen &g, const  z3::expr &v){
+	    void  __randomize<ivyc_s1::vector__pretty__state__>( gen &g, const  z3::expr &v, const std::string &sort_name){
 	        unsigned __sz = rand() % 4;
                 z3::expr val_expr = g.int_to_z3(g.sort("vector[pretty.state].domain"),__sz);
                 z3::expr pred =  g.apply("vector[pretty.state].end",v) == val_expr;
                 g.add_alit(pred);
 	        for (unsigned __i = 0; __i < __sz; ++__i)
-	            __randomize<ivyc_s1::pretty__state>(g,g.apply("vector[pretty.state].value",v,g.int_to_z3(g.sort("vector[pretty.state].domain"),__i)));
+	            __randomize<ivyc_s1::pretty__state>(g,g.apply("vector[pretty.state].value",v,g.int_to_z3(g.sort("vector[pretty.state].domain"),__i)),"pretty.state");
 	    }
 	    #endif
 
@@ -4543,13 +4538,13 @@ int tag = rand() % 8;
 	    }
 
 	    template <>
-	    void  __randomize<ivyc_s1::vector__pos__>( gen &g, const  z3::expr &v){
+	    void  __randomize<ivyc_s1::vector__pos__>( gen &g, const  z3::expr &v, const std::string &sort_name){
 	        unsigned __sz = rand() % 4;
                 z3::expr val_expr = g.int_to_z3(g.sort("vector[pos].domain"),__sz);
                 z3::expr pred =  g.apply("vector[pos].end",v) == val_expr;
                 g.add_alit(pred);
 	        for (unsigned __i = 0; __i < __sz; ++__i)
-	            __randomize<unsigned long long>(g,g.apply("vector[pos].value",v,g.int_to_z3(g.sort("vector[pos].domain"),__i)));
+	            __randomize<unsigned long long>(g,g.apply("vector[pos].value",v,g.int_to_z3(g.sort("vector[pos].domain"),__i)),"pos");
 	    }
 	    #endif
 
@@ -4622,13 +4617,13 @@ int tag = rand() % 8;
 	    }
 
 	    template <>
-	    void  __randomize<ivyc_s1::vector__str__>( gen &g, const  z3::expr &v){
+	    void  __randomize<ivyc_s1::vector__str__>( gen &g, const  z3::expr &v, const std::string &sort_name){
 	        unsigned __sz = rand() % 4;
                 z3::expr val_expr = g.int_to_z3(g.sort("vector[str].domain"),__sz);
                 z3::expr pred =  g.apply("vector[str].end",v) == val_expr;
                 g.add_alit(pred);
 	        for (unsigned __i = 0; __i < __sz; ++__i)
-	            __randomize<ivyc_s1::str>(g,g.apply("vector[str].value",v,g.int_to_z3(g.sort("vector[str].domain"),__i)));
+	            __randomize<ivyc_s1::str>(g,g.apply("vector[str].value",v,g.int_to_z3(g.sort("vector[str].domain"),__i)),"str");
 	    }
 	    #endif
 
@@ -4701,13 +4696,13 @@ int tag = rand() % 8;
 	    }
 
 	    template <>
-	    void  __randomize<ivyc_s1::vector__ivy__ident__>( gen &g, const  z3::expr &v){
+	    void  __randomize<ivyc_s1::vector__ivy__ident__>( gen &g, const  z3::expr &v, const std::string &sort_name){
 	        unsigned __sz = rand() % 4;
                 z3::expr val_expr = g.int_to_z3(g.sort("vector[ivy.ident].domain"),__sz);
                 z3::expr pred =  g.apply("vector[ivy.ident].end",v) == val_expr;
                 g.add_alit(pred);
 	        for (unsigned __i = 0; __i < __sz; ++__i)
-	            __randomize<ivyc_s1::ivy__ident>(g,g.apply("vector[ivy.ident].value",v,g.int_to_z3(g.sort("vector[ivy.ident].domain"),__i)));
+	            __randomize<ivyc_s1::ivy__ident>(g,g.apply("vector[ivy.ident].value",v,g.int_to_z3(g.sort("vector[ivy.ident].domain"),__i)),"ivy.ident");
 	    }
 	    #endif
 
@@ -4780,13 +4775,13 @@ int tag = rand() % 8;
 	    }
 
 	    template <>
-	    void  __randomize<ivyc_s1::vector__ivy__expr__>( gen &g, const  z3::expr &v){
+	    void  __randomize<ivyc_s1::vector__ivy__expr__>( gen &g, const  z3::expr &v, const std::string &sort_name){
 	        unsigned __sz = rand() % 4;
                 z3::expr val_expr = g.int_to_z3(g.sort("vector[ivy.expr].domain"),__sz);
                 z3::expr pred =  g.apply("vector[ivy.expr].end",v) == val_expr;
                 g.add_alit(pred);
 	        for (unsigned __i = 0; __i < __sz; ++__i)
-	            __randomize<ivyc_s1::ivy__expr>(g,g.apply("vector[ivy.expr].value",v,g.int_to_z3(g.sort("vector[ivy.expr].domain"),__i)));
+	            __randomize<ivyc_s1::ivy__expr>(g,g.apply("vector[ivy.expr].value",v,g.int_to_z3(g.sort("vector[ivy.expr].domain"),__i)),"ivy.expr");
 	    }
 	    #endif
 
@@ -4859,13 +4854,13 @@ int tag = rand() % 8;
 	    }
 
 	    template <>
-	    void  __randomize<ivyc_s1::vector__ivy__stmt__>( gen &g, const  z3::expr &v){
+	    void  __randomize<ivyc_s1::vector__ivy__stmt__>( gen &g, const  z3::expr &v, const std::string &sort_name){
 	        unsigned __sz = rand() % 4;
                 z3::expr val_expr = g.int_to_z3(g.sort("vector[ivy.stmt].domain"),__sz);
                 z3::expr pred =  g.apply("vector[ivy.stmt].end",v) == val_expr;
                 g.add_alit(pred);
 	        for (unsigned __i = 0; __i < __sz; ++__i)
-	            __randomize<ivyc_s1::ivy__stmt>(g,g.apply("vector[ivy.stmt].value",v,g.int_to_z3(g.sort("vector[ivy.stmt].domain"),__i)));
+	            __randomize<ivyc_s1::ivy__stmt>(g,g.apply("vector[ivy.stmt].value",v,g.int_to_z3(g.sort("vector[ivy.stmt].domain"),__i)),"ivy.stmt");
 	    }
 	    #endif
 
@@ -4938,13 +4933,13 @@ int tag = rand() % 8;
 	    }
 
 	    template <>
-	    void  __randomize<ivyc_s1::vector__ivy__prototype_argument__>( gen &g, const  z3::expr &v){
+	    void  __randomize<ivyc_s1::vector__ivy__prototype_argument__>( gen &g, const  z3::expr &v, const std::string &sort_name){
 	        unsigned __sz = rand() % 4;
                 z3::expr val_expr = g.int_to_z3(g.sort("vector[ivy.prototype_argument].domain"),__sz);
                 z3::expr pred =  g.apply("vector[ivy.prototype_argument].end",v) == val_expr;
                 g.add_alit(pred);
 	        for (unsigned __i = 0; __i < __sz; ++__i)
-	            __randomize<ivyc_s1::ivy__prototype_argument>(g,g.apply("vector[ivy.prototype_argument].value",v,g.int_to_z3(g.sort("vector[ivy.prototype_argument].domain"),__i)));
+	            __randomize<ivyc_s1::ivy__prototype_argument>(g,g.apply("vector[ivy.prototype_argument].value",v,g.int_to_z3(g.sort("vector[ivy.prototype_argument].domain"),__i)),"ivy.prototype_argument");
 	    }
 	    #endif
 
@@ -5070,13 +5065,13 @@ int tag = rand() % 8;
 	    }
 
 	    template <>
-	    void  __randomize<ivyc_s1::vector__ivy__decl__>( gen &g, const  z3::expr &v){
+	    void  __randomize<ivyc_s1::vector__ivy__decl__>( gen &g, const  z3::expr &v, const std::string &sort_name){
 	        unsigned __sz = rand() % 4;
                 z3::expr val_expr = g.int_to_z3(g.sort("vector[ivy.decl].domain"),__sz);
                 z3::expr pred =  g.apply("vector[ivy.decl].end",v) == val_expr;
                 g.add_alit(pred);
 	        for (unsigned __i = 0; __i < __sz; ++__i)
-	            __randomize<ivyc_s1::ivy__decl>(g,g.apply("vector[ivy.decl].value",v,g.int_to_z3(g.sort("vector[ivy.decl].domain"),__i)));
+	            __randomize<ivyc_s1::ivy__decl>(g,g.apply("vector[ivy.decl].value",v,g.int_to_z3(g.sort("vector[ivy.decl].domain"),__i)),"ivy.decl");
 	    }
 	    #endif
 
@@ -5149,13 +5144,13 @@ int tag = rand() % 8;
 	    }
 
 	    template <>
-	    void  __randomize<ivyc_s1::vector__ivy__error__>( gen &g, const  z3::expr &v){
+	    void  __randomize<ivyc_s1::vector__ivy__error__>( gen &g, const  z3::expr &v, const std::string &sort_name){
 	        unsigned __sz = rand() % 4;
                 z3::expr val_expr = g.int_to_z3(g.sort("vector[ivy.error].domain"),__sz);
                 z3::expr pred =  g.apply("vector[ivy.error].end",v) == val_expr;
                 g.add_alit(pred);
 	        for (unsigned __i = 0; __i < __sz; ++__i)
-	            __randomize<ivyc_s1::ivy__error>(g,g.apply("vector[ivy.error].value",v,g.int_to_z3(g.sort("vector[ivy.error].domain"),__i)));
+	            __randomize<ivyc_s1::ivy__error>(g,g.apply("vector[ivy.error].value",v,g.int_to_z3(g.sort("vector[ivy.error].domain"),__i)),"ivy.error");
 	    }
 	    #endif
 
@@ -5599,13 +5594,13 @@ int tag = rand() % 8;
 	    }
 
 	    template <>
-	    void  __randomize<ivyc_s1::ivy__push_pop_ident_set__vec_t>( gen &g, const  z3::expr &v){
+	    void  __randomize<ivyc_s1::ivy__push_pop_ident_set__vec_t>( gen &g, const  z3::expr &v, const std::string &sort_name){
 	        unsigned __sz = rand() % 4;
                 z3::expr val_expr = g.int_to_z3(g.sort("pos"),__sz);
                 z3::expr pred =  g.apply("ivy.push_pop_ident_set.vec_t.end",v) == val_expr;
                 g.add_alit(pred);
 	        for (unsigned __i = 0; __i < __sz; ++__i)
-	            __randomize<ivyc_s1::ivy__ident>(g,g.apply("ivy.push_pop_ident_set.vec_t.value",v,g.int_to_z3(g.sort("pos"),__i)));
+	            __randomize<ivyc_s1::ivy__ident>(g,g.apply("ivy.push_pop_ident_set.vec_t.value",v,g.int_to_z3(g.sort("pos"),__i)),"ivy.ident");
 	    }
 	    #endif
 
@@ -5784,13 +5779,13 @@ int tag = rand() % 8;
 	    }
 
 	    template <>
-	    void  __randomize<ivyc_s1::vector__ivy__type_context__stack_entry__>( gen &g, const  z3::expr &v){
+	    void  __randomize<ivyc_s1::vector__ivy__type_context__stack_entry__>( gen &g, const  z3::expr &v, const std::string &sort_name){
 	        unsigned __sz = rand() % 4;
                 z3::expr val_expr = g.int_to_z3(g.sort("vector[ivy.type_context.stack_entry].domain"),__sz);
                 z3::expr pred =  g.apply("vector[ivy.type_context.stack_entry].end",v) == val_expr;
                 g.add_alit(pred);
 	        for (unsigned __i = 0; __i < __sz; ++__i)
-	            __randomize<ivyc_s1::ivy__type_context__stack_entry>(g,g.apply("vector[ivy.type_context.stack_entry].value",v,g.int_to_z3(g.sort("vector[ivy.type_context.stack_entry].domain"),__i)));
+	            __randomize<ivyc_s1::ivy__type_context__stack_entry>(g,g.apply("vector[ivy.type_context.stack_entry].value",v,g.int_to_z3(g.sort("vector[ivy.type_context.stack_entry].domain"),__i)),"ivy.type_context.stack_entry");
 	    }
 	    #endif
 
@@ -5863,13 +5858,13 @@ int tag = rand() % 8;
 	    }
 
 	    template <>
-	    void  __randomize<ivyc_s1::vector__cpp__ident__>( gen &g, const  z3::expr &v){
+	    void  __randomize<ivyc_s1::vector__cpp__ident__>( gen &g, const  z3::expr &v, const std::string &sort_name){
 	        unsigned __sz = rand() % 4;
                 z3::expr val_expr = g.int_to_z3(g.sort("vector[cpp.ident].domain"),__sz);
                 z3::expr pred =  g.apply("vector[cpp.ident].end",v) == val_expr;
                 g.add_alit(pred);
 	        for (unsigned __i = 0; __i < __sz; ++__i)
-	            __randomize<ivyc_s1::cpp__ident>(g,g.apply("vector[cpp.ident].value",v,g.int_to_z3(g.sort("vector[cpp.ident].domain"),__i)));
+	            __randomize<ivyc_s1::cpp__ident>(g,g.apply("vector[cpp.ident].value",v,g.int_to_z3(g.sort("vector[cpp.ident].domain"),__i)),"cpp.ident");
 	    }
 	    #endif
 
@@ -5942,13 +5937,13 @@ int tag = rand() % 8;
 	    }
 
 	    template <>
-	    void  __randomize<ivyc_s1::vector__cpp__expr__>( gen &g, const  z3::expr &v){
+	    void  __randomize<ivyc_s1::vector__cpp__expr__>( gen &g, const  z3::expr &v, const std::string &sort_name){
 	        unsigned __sz = rand() % 4;
                 z3::expr val_expr = g.int_to_z3(g.sort("vector[cpp.expr].domain"),__sz);
                 z3::expr pred =  g.apply("vector[cpp.expr].end",v) == val_expr;
                 g.add_alit(pred);
 	        for (unsigned __i = 0; __i < __sz; ++__i)
-	            __randomize<ivyc_s1::cpp__expr>(g,g.apply("vector[cpp.expr].value",v,g.int_to_z3(g.sort("vector[cpp.expr].domain"),__i)));
+	            __randomize<ivyc_s1::cpp__expr>(g,g.apply("vector[cpp.expr].value",v,g.int_to_z3(g.sort("vector[cpp.expr].domain"),__i)),"cpp.expr");
 	    }
 	    #endif
 
@@ -6021,13 +6016,13 @@ int tag = rand() % 8;
 	    }
 
 	    template <>
-	    void  __randomize<ivyc_s1::vector__cpp__stmt__>( gen &g, const  z3::expr &v){
+	    void  __randomize<ivyc_s1::vector__cpp__stmt__>( gen &g, const  z3::expr &v, const std::string &sort_name){
 	        unsigned __sz = rand() % 4;
                 z3::expr val_expr = g.int_to_z3(g.sort("vector[cpp.stmt].domain"),__sz);
                 z3::expr pred =  g.apply("vector[cpp.stmt].end",v) == val_expr;
                 g.add_alit(pred);
 	        for (unsigned __i = 0; __i < __sz; ++__i)
-	            __randomize<ivyc_s1::cpp__stmt>(g,g.apply("vector[cpp.stmt].value",v,g.int_to_z3(g.sort("vector[cpp.stmt].domain"),__i)));
+	            __randomize<ivyc_s1::cpp__stmt>(g,g.apply("vector[cpp.stmt].value",v,g.int_to_z3(g.sort("vector[cpp.stmt].domain"),__i)),"cpp.stmt");
 	    }
 	    #endif
 
@@ -6100,13 +6095,13 @@ int tag = rand() % 8;
 	    }
 
 	    template <>
-	    void  __randomize<ivyc_s1::vector__cpp__simpletype__>( gen &g, const  z3::expr &v){
+	    void  __randomize<ivyc_s1::vector__cpp__simpletype__>( gen &g, const  z3::expr &v, const std::string &sort_name){
 	        unsigned __sz = rand() % 4;
                 z3::expr val_expr = g.int_to_z3(g.sort("vector[cpp.simpletype].domain"),__sz);
                 z3::expr pred =  g.apply("vector[cpp.simpletype].end",v) == val_expr;
                 g.add_alit(pred);
 	        for (unsigned __i = 0; __i < __sz; ++__i)
-	            __randomize<ivyc_s1::cpp__simpletype>(g,g.apply("vector[cpp.simpletype].value",v,g.int_to_z3(g.sort("vector[cpp.simpletype].domain"),__i)));
+	            __randomize<ivyc_s1::cpp__simpletype>(g,g.apply("vector[cpp.simpletype].value",v,g.int_to_z3(g.sort("vector[cpp.simpletype].domain"),__i)),"cpp.simpletype");
 	    }
 	    #endif
 
@@ -6179,13 +6174,13 @@ int tag = rand() % 8;
 	    }
 
 	    template <>
-	    void  __randomize<ivyc_s1::vector__cpp__decl__>( gen &g, const  z3::expr &v){
+	    void  __randomize<ivyc_s1::vector__cpp__decl__>( gen &g, const  z3::expr &v, const std::string &sort_name){
 	        unsigned __sz = rand() % 4;
                 z3::expr val_expr = g.int_to_z3(g.sort("vector[cpp.decl].domain"),__sz);
                 z3::expr pred =  g.apply("vector[cpp.decl].end",v) == val_expr;
                 g.add_alit(pred);
 	        for (unsigned __i = 0; __i < __sz; ++__i)
-	            __randomize<ivyc_s1::cpp__decl>(g,g.apply("vector[cpp.decl].value",v,g.int_to_z3(g.sort("vector[cpp.decl].domain"),__i)));
+	            __randomize<ivyc_s1::cpp__decl>(g,g.apply("vector[cpp.decl].value",v,g.int_to_z3(g.sort("vector[cpp.decl].domain"),__i)),"cpp.decl");
 	    }
 	    #endif
 
@@ -6417,13 +6412,13 @@ int tag = rand() % 8;
 	    }
 
 	    template <>
-	    void  __randomize<ivyc_s1::vector__ivy__lvalue_count__>( gen &g, const  z3::expr &v){
+	    void  __randomize<ivyc_s1::vector__ivy__lvalue_count__>( gen &g, const  z3::expr &v, const std::string &sort_name){
 	        unsigned __sz = rand() % 4;
                 z3::expr val_expr = g.int_to_z3(g.sort("vector[ivy.lvalue_count].domain"),__sz);
                 z3::expr pred =  g.apply("vector[ivy.lvalue_count].end",v) == val_expr;
                 g.add_alit(pred);
 	        for (unsigned __i = 0; __i < __sz; ++__i)
-	            __randomize<ivyc_s1::ivy__lvalue_count>(g,g.apply("vector[ivy.lvalue_count].value",v,g.int_to_z3(g.sort("vector[ivy.lvalue_count].domain"),__i)));
+	            __randomize<ivyc_s1::ivy__lvalue_count>(g,g.apply("vector[ivy.lvalue_count].value",v,g.int_to_z3(g.sort("vector[ivy.lvalue_count].domain"),__i)),"ivy.lvalue_count");
 	    }
 	    #endif
 
@@ -6496,13 +6491,13 @@ int tag = rand() % 8;
 	    }
 
 	    template <>
-	    void  __randomize<ivyc_s1::vector__ivy__access_path__>( gen &g, const  z3::expr &v){
+	    void  __randomize<ivyc_s1::vector__ivy__access_path__>( gen &g, const  z3::expr &v, const std::string &sort_name){
 	        unsigned __sz = rand() % 4;
                 z3::expr val_expr = g.int_to_z3(g.sort("vector[ivy.access_path].domain"),__sz);
                 z3::expr pred =  g.apply("vector[ivy.access_path].end",v) == val_expr;
                 g.add_alit(pred);
 	        for (unsigned __i = 0; __i < __sz; ++__i)
-	            __randomize<ivyc_s1::ivy__access_path>(g,g.apply("vector[ivy.access_path].value",v,g.int_to_z3(g.sort("vector[ivy.access_path].domain"),__i)));
+	            __randomize<ivyc_s1::ivy__access_path>(g,g.apply("vector[ivy.access_path].value",v,g.int_to_z3(g.sort("vector[ivy.access_path].domain"),__i)),"ivy.access_path");
 	    }
 	    #endif
 
@@ -33866,15 +33861,15 @@ ivyc_s1::str ivyc_s1::ext__ivy__testelide(const str& inp){
     }
     return res;
 }
+void ivyc_s1::imp__parse_error(unsigned long long p, const str& tok){
+    {
+    }
+}
 void ivyc_s1::imp__ivy__decost__typeinf_show_str(const str& s){
     {
     }
 }
 void ivyc_s1::imp__ivy__report_cannot_infer(const str& s1, const str& s2){
-    {
-    }
-}
-void ivyc_s1::imp__parse_error(unsigned long long p, const str& tok){
     {
     }
 }
@@ -36520,14 +36515,14 @@ int ask_ret(long long bound) {
         }
     }
     ivyc_s1_repl(str input_file_name) : ivyc_s1(input_file_name){}
+    virtual void imp__parse_error(unsigned long long p, const str& tok){
+    __ivy_out  << "< parse_error" << "(" << p << "," << tok << ")" << std::endl;
+}
     virtual void imp__ivy__decost__typeinf_show_str(const str& s){
     __ivy_out  << "< ivy.decost.typeinf_show_str" << "(" << s << ")" << std::endl;
 }
     virtual void imp__ivy__report_cannot_infer(const str& s1, const str& s2){
     __ivy_out  << "< ivy.report_cannot_infer" << "(" << s1 << "," << s2 << ")" << std::endl;
-}
-    virtual void imp__parse_error(unsigned long long p, const str& tok){
-    __ivy_out  << "< parse_error" << "(" << p << "," << tok << ")" << std::endl;
 }
 
     };
