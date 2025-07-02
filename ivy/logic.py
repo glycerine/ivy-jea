@@ -437,6 +437,10 @@ class NamedBinder(recstruct('NamedBinder', ['name', 'variables', 'environ'], ['b
         self.body.sort
     )
 
+# jea: so this re-definitinon of true/false was done 10 years ago in
+# https://github.com/kenmcmil/ivy/commit/e9ff8abf3ad6b737a17186f74824c966e787795f#diff-6545fc3ee99458cb6fe8caf4cfc413aefd477962e3b5a14d03942a0a194aad40
+# but some use places like ivy_congclos.py:52/44 never got
+# fixed because, well, python.
 
 # true = Const('true', Boolean)
 # false = Const('false', Boolean)
